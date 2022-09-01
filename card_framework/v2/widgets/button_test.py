@@ -27,12 +27,11 @@ class ButtonTest(unittest.TestCase):
     on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
     t = Button(text=text, on_click=on_click)
 
-    self.assertEqual(t._widget_tag, 'button')
     self.assertDictEqual(
-        t.render(),
-        {'button': {
+        t.to_dict(),
+        {
             'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
-            'text': 'Inconceivable!'}}
+            'text': 'Inconceivable!'}
     )
 
   def test_icon_button(self) -> None:
@@ -67,15 +66,12 @@ class ButtonTest(unittest.TestCase):
     t = Button(text=text, on_click=on_click)
     t.horizontal_alignment = HorizontalAlignment.CENTER
 
-    self.assertEqual(t._widget_tag, 'button')
     self.assertDictEqual(
-        t.render(),
+        t.to_dict(),
         {
-            'button': {
-                'onClick': {
-                    'openLink': {
-                        'url': 'https://www.karentaylorart.com'}
-                },
-                'text': 'Inconceivable!'},
-            'horizontalAlignment': 'CENTER'}
+            'onClick': {
+                'openLink': {
+                    'url': 'https://www.karentaylorart.com'}
+            },
+            'text': 'Inconceivable!'}
     )

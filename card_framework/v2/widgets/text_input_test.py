@@ -26,6 +26,7 @@ class TextInputTest(unittest.TestCase):
                          {'textInput': {'name': 'Inigo Montoya'}})
 
   def test_render_complete(self) -> None:
+    self.maxDiff = None
     i = TextInput()
     i.name = 'inigo'
     i.hint_text = 'You killed my father.'

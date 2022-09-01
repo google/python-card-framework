@@ -14,7 +14,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from dataclasses_json import DataClassJsonMixin
+from dataclasses_json import LetterCase, dataclass_json
 
 from card_framework import standard_field
 
@@ -24,11 +24,12 @@ from .icon import Icon
 from .on_click import OnClick
 
 
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
-class Button(Widget, DataClassJsonMixin):
-  """Button widget
+class Button(object):
+  """Button
 
-  Renders a Button widget
+  Renders a Button.
 
   https://developers.google.com/chat/api/guides/message-formats/cards#buttons
   """
@@ -38,12 +39,3 @@ class Button(Widget, DataClassJsonMixin):
   on_click: OnClick = standard_field()
   disabled: bool = standard_field()
   alt_text: str = standard_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'button'
