@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import annotations
+import inspect
 from typing import Any, Callable
 
 import dataclasses_json
@@ -47,7 +48,7 @@ def standard_field(default: Any = None, default_factory: Any = None,
   if kwargs:
     exclude = kwargs.get('exclude', lambda x: not x)
   else:
-    exclude = lambda x: not x
+    def exclude(x): return not x
 
   if default_factory:
     f = dataclasses.field(default_factory=default_factory,
@@ -70,13 +71,21 @@ def list_field(default: Any = None, default_factory: Any = list, **kwargs):
         metadata=dataclasses_json.config(
             letter_case=dataclasses_json.LetterCase.CAMEL,
             exclude=lambda x: not x,
-            encoder=lambda x: [f.render() for f in x], **kwargs))
+            encoder=lambda x: [
+                f.render() if inspect.getmembers(
+                    f,
+                    lambda m: inspect.ismethod(m) and m.__name__ == 'render'
+                ) else f.to_dict() for f in x], **kwargs))
   else:
     f = dataclasses.field(
         default=default,
         metadata=dataclasses_json.config(
             letter_case=dataclasses_json.LetterCase.CAMEL,
             exclude=lambda x: not x,
-            encoder=lambda x: [f.render() for f in x], **kwargs))
+            encoder=lambda x: [
+                f.render() if inspect.getmembers(
+                    f,
+                    lambda m: inspect.ismethod(m) and m.__name__ == 'render'
+                ) else f.to_dict() for f in x], **kwargs))
 
   return f
