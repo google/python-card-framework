@@ -26,7 +26,7 @@ from ..widget import Widget
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Action(Widget):
-  function: str = ''
+  function: str = standard_field(default='')
   parameters: List[ActionParameter] = list_field()
   load_indicator: LoadIndicator = standard_field()
   persist_values: bool = standard_field()

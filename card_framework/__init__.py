@@ -13,7 +13,7 @@
 # limitations under the License.
 from __future__ import annotations
 import inspect
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 import dataclasses_json
 import dataclasses
@@ -35,57 +35,55 @@ def lazy_property(f: Callable):
   return _lazy_property
 
 
-def enum_field(default: Any = None):
-  return dataclasses.field(default=default,
-                           metadata=dataclasses_json.config(
-                               letter_case=dataclasses_json.LetterCase.CAMEL,
-                               exclude=lambda x: not x,
-                               encoder=lambda x: x.name if x else None))
+def field(default: Any = None, default_factory: Any = None,
+          **metadata) -> dataclasses.Field:
+  return \
+      dataclasses.field(default_factory=default_factory,
+                        metadata=dataclasses_json.config(**metadata)) \
+      if default_factory else \
+      dataclasses.field(default=default,
+                        metadata=dataclasses_json.config(**metadata))
+
+
+def metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
+  for key in custom:
+    if not custom[key] and key in base:
+      del base[key]
+
+    elif custom[key]:
+      base.update({key: custom[key]})
+
+  return base
 
 
 def standard_field(default: Any = None, default_factory: Any = None,
-                   **kwargs):
-  if kwargs:
-    exclude = kwargs.get('exclude', lambda x: not x)
-  else:
-    def exclude(x): return not x
+                   **kwargs) -> dataclasses.Field:
+  base = {
+      'letter_case': dataclasses_json.LetterCase.CAMEL,
+      'exclude': lambda x: not x
+  }
 
-  if default_factory:
-    f = dataclasses.field(default_factory=default_factory,
-                          metadata=dataclasses_json.config(
-                              letter_case=dataclasses_json.LetterCase.CAMEL,
-                              exclude=exclude))
-  else:
-    f = dataclasses.field(default=default,
-                          metadata=dataclasses_json.config(
-                              letter_case=dataclasses_json.LetterCase.CAMEL,
-                              exclude=exclude))
-
-  return f
+  return field(default=default, default_factory=default_factory,
+               **metadata(base=base, **kwargs))
 
 
-def list_field(default: Any = None, default_factory: Any = list, **kwargs):
-  if default_factory:
-    f = dataclasses.field(
-        default_factory=default_factory,
-        metadata=dataclasses_json.config(
-            letter_case=dataclasses_json.LetterCase.CAMEL,
-            exclude=lambda x: not x,
-            encoder=lambda x: [
-                f.render() if inspect.getmembers(
-                    f,
-                    lambda m: inspect.ismethod(m) and m.__name__ == 'render'
-                ) else f.to_dict() for f in x], **kwargs))
-  else:
-    f = dataclasses.field(
-        default=default,
-        metadata=dataclasses_json.config(
-            letter_case=dataclasses_json.LetterCase.CAMEL,
-            exclude=lambda x: not x,
-            encoder=lambda x: [
-                f.render() if inspect.getmembers(
-                    f,
-                    lambda m: inspect.ismethod(m) and m.__name__ == 'render'
-                ) else f.to_dict() for f in x], **kwargs))
+def enum_field(default: Any = None, **kwargs) -> dataclasses.Field:
+  base = {
+      'encoder': lambda x: x.name if x else None
+  }
 
-  return f
+  return standard_field(default=default, **base, **kwargs)
+
+
+def list_field(default: Any = None, default_factory: Any = list,
+               **kwargs) -> dataclasses.Field:
+  base = {
+      'encoder': lambda x: [
+          f.render() if inspect.getmembers(
+              f,
+              lambda m: inspect.ismethod(m) and m.__name__ == 'render'
+          ) else f.to_dict() for f in x],
+
+  }
+
+  return standard_field(default_factory=list, **base, **kwargs)
