@@ -20,3 +20,4 @@
 .history/
 .idea/
 .vscode/
+**/deprecated/
