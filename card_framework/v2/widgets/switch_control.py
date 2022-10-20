@@ -16,6 +16,8 @@ from typing import Optional
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
+from card_framework import enum_field, standard_field
+
 from ..enums import ControlType
 from ..widget import Widget
 from .action import Action
@@ -26,12 +28,11 @@ from .action import Action
 class SwitchControl(Widget):
   """SwitchControl
   """
-  name: str = field(default='')
-  value: str = field(default='')
-  selected: bool = field(default=None)
-  onChangeAction: Action = field(default=None)
-  controlType: ControlType = field(
-      default=None, metadata=config(letter_case=LetterCase.CAMEL))
+  name: str = standard_field(default='')
+  value: str = standard_field(default='')
+  selected: bool = standard_field(default=None)
+  onChangeAction: Action = standard_field(default=None)
+  controlType: ControlType = enum_field()
 
   @property
   def _widget_tag(self) -> str:

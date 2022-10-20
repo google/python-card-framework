@@ -15,10 +15,12 @@ from dataclasses import dataclass
 
 from dataclasses_json import LetterCase, dataclass_json
 
+from card_framework import standard_field
+
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SelectionItem(object):
-  text: str = None
-  value: str = None
-  selected: bool = False
+  text: str = standard_field()
+  value: str = standard_field()
+  selected: bool = standard_field()

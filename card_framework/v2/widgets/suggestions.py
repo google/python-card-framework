@@ -14,6 +14,8 @@
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
+from card_framework import standard_field
+
 from ..enums import Icon, TextInputType
 from dataclasses_json import DataClassJsonMixin, LetterCase, config, dataclass_json
 from dataclasses_json.core import Json
@@ -25,10 +27,9 @@ from ..widget import Widget
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SuggestionItem(object):
-  text: str = None
+  text: str = standard_field()
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Suggestions(object):
-  items: List[SuggestionItem] = field(
-      default_factory=list, metadata=config(exclude=lambda x: not x))
+  items: List[SuggestionItem] = standard_field()

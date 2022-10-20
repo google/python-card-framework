@@ -18,6 +18,8 @@ from dataclasses_json import (LetterCase, config,
                               dataclass_json)
 from dataclasses_json.core import Json
 
+from card_framework import enum_field, list_field, standard_field
+
 from ..enums import SelectionInputType
 from ..widget import Widget
 from .action import Action
@@ -29,15 +31,11 @@ from .selection_item import SelectionItem
 class SelectionInput(Widget):
   """SelectionInput
   """
-  name: str = ''
-  label: Optional[str] = None
-  type: SelectionInputType = field(
-      default=None,
-      metadata=config(exclude=lambda x: not x,
-                      encoder=lambda x: x.name if x else None))
-  items: List[SelectionItem] = field(
-      default_factory=list, metadata=config(exclude=lambda x: not x))
-  on_change_action: Optional[Action] = None
+  name: str = standard_field()
+  label: Optional[str] = standard_field()
+  type: SelectionInputType = enum_field()
+  items: List[SelectionItem] = list_field()
+  on_change_action: Optional[Action] = standard_field()
 
   @property
   def _widget_tag(self) -> str:

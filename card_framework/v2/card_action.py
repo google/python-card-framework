@@ -24,4 +24,4 @@ from .widgets.on_click import OnClick
 @dataclass
 class CardAction(object):
   action_label: Optional[str] = standard_field()
-  on_click: Optional[OnClick] =standard_field()
+  on_click: Optional[OnClick] = standard_field()

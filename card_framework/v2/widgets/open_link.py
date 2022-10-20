@@ -19,4 +19,4 @@ from dataclasses_json import LetterCase, dataclass_json
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class OpenLink(object):
-  url: str = None
+  url: str = standard_field()

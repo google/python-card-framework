@@ -22,42 +22,36 @@ The developer can now create and manipulate first-class Python objects which
 know how to correctly render themselves. Thus, instead of inserting this:
 
 ```
-return {
-  "sections": [
-    {
-      "widgets": [
+  return {
+    "sections": [
         {
-          "decoratedText": {
-            "topLabel": "Hello, my name is Inigo Montoya",
-            "text": "You killed my father. Prepare to die.",
-            "startIcon": {
-              "knownIcon": "OFFER"
+          "widgets": [
+            {
+              "decoratedText": {
+                "topLabel": "Hello, my name is Inigo Montoya",
+                "text": "You killed my father. Prepare to die.",
+                "startIcon": {
+                  "knownIcon": "PERSON"
+                }
+              }
             }
-          }
-        }
-      ]
+        ]
+      }
+    ],
+    "header": {
+      "title": "The Princess Bride",
+      "imageUrl": "https://source.unsplash.com/featured/320x180?nature&sig=8",
+      "imageType": "CIRCLE"
     }
-  ],
-  "header": {
-    "title": "The Princess Bride",
-    "imageUrl": "https://source.unsplash.com/featured/320x180?nature&sig=8",
-    "imageType": "CIRCLE"
   }
-}
 ```
 
-... the developer can instead do this:
+... the developer can instead do this (with the appropriate `import`s, of course):
 
 ```
-from card_framework.v2.card import Card
-from card_framework.v2.card_header import CardHeader
-from card_framework.v2.message import Message
-from card_framework.v2.section import Section
-from card_framework.v2.widgets.decorated_text import DecoratedText
-
 text = DecoratedText(top_label='Hello, my name is Inigo Montoya',
                      text='You killed my father. Prepare to die.',
-                     start_icon=Icon(known_icon=KnownIcon.OFFER))
+                     start_icon=Icon(known_icon=KnownIcon.PERSON))
 widgets = [text]
 header = CardHeader(title='The Princess Bride',
                     image_url='https://source.unsplash.com/featured320x180?nature&sig=8')
