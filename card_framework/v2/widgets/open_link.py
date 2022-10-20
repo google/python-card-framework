@@ -13,6 +13,7 @@
 # limitations under the License.
 from dataclasses import dataclass
 
+from card_framework import standard_field
 from dataclasses_json import LetterCase, dataclass_json
 
 
