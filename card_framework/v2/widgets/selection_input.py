@@ -28,8 +28,8 @@ from .selection_item import SelectionItem
 class SelectionInput(Widget):
   """SelectionInput
   """
-  class SelectionInputType(AutoNumber):
-    """SelectionInputType
+  class SelectionType(AutoNumber):
+    """SelectionType
     """
     SWITCH = 'SWITCH'
     CHECK_BOX = 'CHECK_BOX'
@@ -38,7 +38,7 @@ class SelectionInput(Widget):
 
   name: str = standard_field()
   label: Optional[str] = standard_field()
-  type: SelectionInputType = enum_field()
+  type: SelectionType = enum_field()
   items: List[SelectionItem] = list_field()
   on_change_action: Optional[Action] = standard_field()
 

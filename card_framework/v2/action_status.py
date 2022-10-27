@@ -17,8 +17,6 @@ import dataclasses_json
 
 from card_framework import AutoNumber, enum_field, standard_field
 
-from .enums import Code
-
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
