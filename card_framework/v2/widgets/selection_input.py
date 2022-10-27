@@ -11,16 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import List, Optional
 
-from dataclasses_json import (LetterCase, config,
-                              dataclass_json)
-from dataclasses_json.core import Json
+from dataclasses_json import LetterCase, dataclass_json
 
-from card_framework import enum_field, list_field, standard_field
+from card_framework import AutoNumber, enum_field, list_field, standard_field
 
-from ..enums import SelectionInputType
 from ..widget import Widget
 from .action import Action
 from .selection_item import SelectionItem
@@ -31,6 +28,14 @@ from .selection_item import SelectionItem
 class SelectionInput(Widget):
   """SelectionInput
   """
+  class SelectionInputType(AutoNumber):
+    """SelectionInputType
+    """
+    SWITCH = 'SWITCH'
+    CHECK_BOX = 'CHECK_BOX'
+    RADIO_BUTTON = 'RADIO_BUTTON'
+    DROPDOWN = 'DROPDOWN'
+
   name: str = standard_field()
   label: Optional[str] = standard_field()
   type: SelectionInputType = enum_field()

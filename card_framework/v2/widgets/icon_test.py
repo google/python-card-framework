@@ -15,7 +15,7 @@
 import unittest
 
 from .icon import Icon
-from ..enums import Icon as KnownIcon
+
 
 
 class IconTest(unittest.TestCase):
@@ -34,7 +34,7 @@ class IconTest(unittest.TestCase):
         icon_url='https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg')
     self.assertIsNone(i.known_icon)
 
-    i.known_icon = KnownIcon.AIRPLANE
+    i.known_icon = Icon.KnownIcon.AIRPLANE
     self.assertIsNone(i.icon_url)
     self.assertEqual(
         i.to_dict(),
@@ -44,7 +44,7 @@ class IconTest(unittest.TestCase):
         })
 
   def test_url_to_icon(self) -> None:
-    i = Icon(known_icon=KnownIcon.AIRPLANE)
+    i = Icon(known_icon=Icon.KnownIcon.AIRPLANE)
     self.assertIsNone(i.icon_url)
 
     i.icon_url = 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg'

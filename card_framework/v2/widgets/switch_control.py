@@ -11,14 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Optional
+from __future__ import annotations
 
-from dataclasses_json import LetterCase, config, dataclass_json
+from dataclasses import dataclass
 
-from card_framework import enum_field, standard_field
+from card_framework import AutoNumber, enum_field, standard_field
+from dataclasses_json import LetterCase, dataclass_json
 
-from ..enums import ControlType
 from ..widget import Widget
 from .action import Action
 
@@ -28,6 +27,33 @@ from .action import Action
 class SwitchControl(Widget):
   """SwitchControl
   """
+  class ControlType(AutoNumber):
+    """ControlType _summary_
+_
+    """
+    SWITCH = 'SWITCH'
+    CHECK_BOX = 'CHECK_BOX'
+
+    @classmethod
+    def _missing_(cls, value) -> SwitchControl.ControlType:
+      """Backward compatilbility for old enums.
+
+      If the old product names are still in use, replace them with
+      the new values seamlessly.
+
+      Args:
+          value (str): enum string value requested
+
+      Returns:
+          ControlType: the corrected type
+
+      Raises:
+          ValueError if it was simply an incorrect enum rather an old value
+      """
+      if value == 'CHECKBOX':
+        # Deprecated in favor of CHECK_BOX.
+        return cls.CHECK_BOX
+
   name: str = standard_field(default='')
   value: str = standard_field(default='')
   selected: bool = standard_field(default=None)

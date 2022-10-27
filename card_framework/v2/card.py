@@ -12,19 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import dataclasses
-from typing import Any, Iterable, List, Mapping, Optional
 import uuid
+from typing import Any, Iterable, List, Mapping, Optional
 
 import dataclasses_json
+from card_framework import AutoNumber, list_field, standard_field
 
-from card_framework import list_field, standard_field
-
-from .enums import DisplayStyle
-
-from .card_header import CardHeader
-from .section import Section
 from .card_action import CardAction
 from .card_fixed_footer import CardFixedFooter
+from .card_header import CardHeader
+from .section import Section
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
@@ -39,6 +36,11 @@ class Card(object):
   See https://developers.google.com/chat/api/guides/message-formats/cards for
   full details on what this should look like.
   """
+  class DisplayStyle(AutoNumber):
+    DISPLAY_STYLE_UNSPECIFIED = 'DISPLAY_STYLE_UNSPECIFIED'
+    PEEK = 'PEEK'
+    REPLACE = 'REPLACE'
+
   _tag = 'cards'
   _card_id = None
 

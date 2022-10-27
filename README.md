@@ -51,7 +51,7 @@ know how to correctly render themselves. Thus, instead of inserting this:
 ```
 text = DecoratedText(top_label='Hello, my name is Inigo Montoya',
                      text='You killed my father. Prepare to die.',
-                     start_icon=Icon(known_icon=KnownIcon.PERSON))
+                     start_icon=Icon(known_icon=Icon.KnownIcon.PERSON))
 widgets = [text]
 header = CardHeader(title='The Princess Bride',
                     image_url='https://source.unsplash.com/featured320x180?nature&sig=8')

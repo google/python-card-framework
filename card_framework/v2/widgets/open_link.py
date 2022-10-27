@@ -13,11 +13,25 @@
 # limitations under the License.
 from dataclasses import dataclass
 
-from card_framework import standard_field
+from card_framework import AutoNumber, enum_field, standard_field
 from dataclasses_json import LetterCase, dataclass_json
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class OpenLink(object):
+  class OnClose(AutoNumber):
+    """OnClose
+    """
+    NOTHING = 'NOTHING'
+    RELOAD = 'RELOAD'
+
+  class OpenAs(AutoNumber):
+    """OpenAs
+    """
+    FULL_SIZE = 'FULL_SIZE'
+    OVERLAY = 'OVERLAY'
+
   url: str = standard_field()
+  open_as: str = enum_field()       # Not supported by chat apps
+  on_close: str = enum_field()      # Not supported by chat apps

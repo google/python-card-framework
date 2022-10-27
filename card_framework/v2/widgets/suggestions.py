@@ -11,23 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import List
 
 from card_framework import standard_field
+from dataclasses_json import (LetterCase, dataclass_json)
 
-from ..enums import Icon, TextInputType
-from dataclasses_json import DataClassJsonMixin, LetterCase, config, dataclass_json
-from dataclasses_json.core import Json
-
-from .action import Action
-from .on_click import OnClick
-from ..widget import Widget
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class SuggestionItem(object):
   text: str = standard_field()
+
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass

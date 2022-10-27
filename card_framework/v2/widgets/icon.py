@@ -17,13 +17,49 @@ from typing import Any, Dict, List, Optional
 from dataclasses_json import (DataClassJsonMixin, LetterCase, config)
 from dataclasses_json.core import Json
 
-from card_framework import enum_field, standard_field
+from card_framework import enum_field, standard_field, AutoNumber
 
-from ..enums import ImageType, Icon as KnownIcon
+from ..enums import ImageType
 
 
 @dataclass
 class Icon(DataClassJsonMixin):
+  class KnownIcon(AutoNumber):
+    """Icon
+
+    The allowed built in icon values.
+
+    https://developers.google.com/chat/api/guides/message-formats/cards#builtinicons
+    """
+    AIRPLANE = 'AIRPLANE'
+    BOOKMARK = 'BOOKMARK'
+    BUS = 'BUS'
+    CAR = 'CAR'
+    CLOCK = 'CLOCK'
+    CONFIRMATION_NUMBER_ICON = 'CONFIRMATION_NUMBER_ICON'
+    DESCRIPTION = 'DESCRIPTION'
+    DOLLAR = 'DOLLAR'
+    EMAIL = 'EMAIL'
+    EVENT_SEAT = 'EVENT_SEAT'
+    FLIGHT_ARRIVAL = 'FLIGHT_ARRIVAL'
+    FLIGHT_DEPARTURE = 'FLIGHT_DEPARTURE'
+    HOTEL = 'HOTEL'
+    HOTEL_ROOM_TYPE = 'HOTEL_ROOM_TYPE'
+    INVITE = 'INVITE'
+    MAP_PIN = 'MAP_PIN'
+    MEMBERSHIP = 'MEMBERSHIP'
+    MULTIPLE_PEOPLE = 'MULTIPLE_PEOPLE'
+    PERSON = 'PERSON'
+    PHONE = 'PHONE'
+    RESTAURANT_ICON = 'RESTAURANT_ICON'
+    SHOPPING_CART = 'SHOPPING_CART'
+    STAR = 'STAR'
+    STORE = 'STORE'
+    TICKET = 'TICKET'
+    TRAIN = 'TRAIN'
+    VIDEO_CAMERA = 'VIDEO_CAMERA'
+    VIDEO_PLAY = 'VIDEO_PLAY'
+
   alt_text: Optional[str] = standard_field()
   icon_url: Optional[str] = standard_field()
   image_type: Optional[ImageType] = standard_field()

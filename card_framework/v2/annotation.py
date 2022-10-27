@@ -20,13 +20,17 @@ import card_framework
 import dataclasses_json
 from dataclasses_json.core import Json
 
-from .enums import AnnotationType, AutoNumber
 from .user import User
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class Annotation(object):
+  class AnnotationType(card_framework.AutoNumber):
+    ANNOTATION_TYPE_UNSPECIFIED = 'ANNOTATION_TYPE_UNSPECIFIED'
+    USER_MENTION = 'USER_MENTION'
+    SLASH_COMMAND = 'SLASH_COMMAND'
+
   type: AnnotationType = card_framework.enum_field()
   startIndex: int = card_framework.standard_field()
   length: int = card_framework.standard_field()
@@ -92,7 +96,7 @@ class Annotation(object):
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class UserMentionMetadata(object):
-  class UserMentionMetadataType(AutoNumber):
+  class UserMentionMetadataType(card_framework.AutoNumber):
     TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
     ADD = 'ADD'
     MENTION = 'MENTION'
@@ -112,7 +116,7 @@ class UserMentionMetadata(object):
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class SlashCommandMetadata(object):
-  class SlashCommandMetadataType(AutoNumber):
+  class SlashCommandMetadataType(card_framework.AutoNumber):
     TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
     ADD = 'ADD'
     INVOKE = 'INVOKE'

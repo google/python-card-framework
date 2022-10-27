@@ -13,18 +13,15 @@
 # limitations under the License.
 
 import unittest
-from dataclasses import dataclass
-from typing import List
 
-from dataclasses_json import LetterCase, dataclass_json
 
-from card_framework.v2.annotation import *
-from card_framework.v2.enums import UserType
+from card_framework.v2.annotation import Annotation, SlashCommandMetadata, UserMentionMetadata
+from card_framework.v2.user import User
 
 
 class AnnotationTest(unittest.TestCase):
   def test_render_slash_command(self) -> None:
-    a = Annotation(type=AnnotationType.SLASH_COMMAND)
+    a = Annotation(type=Annotation.AnnotationType.SLASH_COMMAND)
     s = SlashCommandMetadata()
     s.type = SlashCommandMetadata.SlashCommandMetadataType.INVOKE
     s.command_id = 1
@@ -40,11 +37,11 @@ class AnnotationTest(unittest.TestCase):
     )
 
   def test_render_user_mention(self) -> None:
-    a = Annotation(type=AnnotationType.USER_MENTION)
+    a = Annotation(Annotation.AnnotationType.USER_MENTION)
     u = UserMentionMetadata()
     u.type = UserMentionMetadata.UserMentionMetadataType.MENTION
     user = User()
-    user.type = UserType.HUMAN
+    user.type = User.UserType.HUMAN
     user.name = 'westley'
     user.display_name = 'Dread Pirate Roberts'
     u.user = user

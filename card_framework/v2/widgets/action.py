@@ -13,23 +13,33 @@
 # limitations under the License.
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, List, Mapping
 
-from card_framework import list_field, standard_field
-from dataclasses_json import LetterCase, config, dataclass_json
+from card_framework import enum_field, list_field, standard_field, AutoNumber
+from dataclasses_json import LetterCase, dataclass_json
 
-from ..enums import LoadIndicator
 from ..widget import Widget
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Action(Widget):
+  class Interaction(AutoNumber):
+    UNSPECIFIED = 'UNSPECIFIED'
+    OPEN_DIALOG = 'OPEN_DIALOG'
+
+  class LoadIndicator(AutoNumber):
+    """LoadIndicator
+    """
+    SPINNER = 'SPINNER'
+    NONE = 'NONE'
+
   function: str = standard_field(default='')
   parameters: List[ActionParameter] = list_field()
-  load_indicator: LoadIndicator = standard_field()
+  load_indicator: LoadIndicator = enum_field()
   persist_values: bool = standard_field()
+  interaction: Interaction = enum_field()
 
   @property
   def _widget_tag(self) -> str:

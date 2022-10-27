@@ -15,7 +15,6 @@
 import unittest
 
 from card_framework import *
-from card_framework.v2.enums import AutoNumber
 from dataclasses import dataclass
 from typing import Any, List, Mapping
 

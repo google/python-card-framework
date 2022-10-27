@@ -14,19 +14,25 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import Any, Iterable, Mapping
+from typing import Any, Mapping
 
 import dataclasses_json
-
-from card_framework import enum_field, standard_field
+from card_framework import AutoNumber, enum_field, standard_field
 
 from .dialog_action import DialogAction
-from .enums import ResponseType
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class ActionResponse(object):
+  class ResponseType(AutoNumber):
+    TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
+    NEW_MESSAGE = 'NEW_MESSAGE'
+    UPDATE_MESSAGE = 'UPDATE_MESSAGE'
+    UPDATE_USER_MESSAGE_CARDS = 'UPDATE_USER_MESSAGE_CARDS'
+    REQUEST_CONFIG = 'REQUEST_CONFIG'
+    DIALOG = 'DIALOG'
+
   _tag = 'actionResponse'
 
   @property

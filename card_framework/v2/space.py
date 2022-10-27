@@ -14,20 +14,22 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import Any, Dict, Iterable, Mapping
 
-from  card_framework import enum_field, standard_field
 import dataclasses_json
-from dataclasses_json.core import Json
-
-from .enums import SpaceType
+from card_framework import AutoNumber, enum_field, standard_field
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class Space(object):
+  class SpaceType(AutoNumber):
+    SPACE_TYPE_UNSPECIFIED = 'SPACE_TYPE_UNSPECIFIED'
+    SPACE = 'SPACE'
+    GROUP_CHAT = 'GROUP_CHAT'
+    DIRECT_MESSAGE = 'DIRECT_MESSAGE'
+
   name: str = standard_field()
-  type: str = standard_field() # deprecated
+  type: str = standard_field()  # deprecated
   spaceType: SpaceType = enum_field()
   singleUserBotDm: bool = standard_field()
   threaded: bool = standard_field()

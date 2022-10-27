@@ -16,10 +16,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, List, Mapping
 
-from card_framework import enum_field, list_field, standard_field
+from card_framework import enum_field, list_field, standard_field, AutoNumber
 from dataclasses_json import LetterCase, config, dataclass_json
 
-from ..enums import AutoNumber, HorizontalAlignment
+from ..enums import HorizontalAlignment
 from ..widget import Widget
 from .color import Color
 from .on_click import OnClick

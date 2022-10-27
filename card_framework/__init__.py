@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import annotations
+import enum
 import inspect
 from typing import Any, Callable, Mapping
 
@@ -87,3 +88,14 @@ def list_field(default: Any = None, default_factory: Any = list,
   }
 
   return standard_field(default_factory=list, **base, **kwargs)
+
+
+class AutoNumber(enum.Enum):
+  def __repr__(self):
+    return '<%s.%s>' % (self.__class__.__name__, self.name)
+
+  def __new__(cls, *args, **kwargs):
+    value = len(cls.__members__) + 1
+    obj = object.__new__(cls)
+    obj._value_ = value
+    return obj

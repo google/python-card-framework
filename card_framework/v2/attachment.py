@@ -17,15 +17,18 @@ import dataclasses
 from typing import Any, Dict, Mapping
 
 import dataclasses_json
-from card_framework import enum_field, standard_field
+from card_framework import AutoNumber, enum_field, standard_field
 from dataclasses_json.core import Json
-
-from .enums import Source
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class Attachment(object):
+  class Source(AutoNumber):
+    SOURCE_UNSPECIFIED = 'SOURCE_UNSPECIFIED'
+    DRIVE_FILE = 'DRIVE_FILE'
+    UPLOADED_CONTENT = 'UPLOADED_CONTENT'
+
   name: str = standard_field()
   content_name: str = standard_field()
   content_type: str = standard_field()
@@ -81,7 +84,7 @@ class Attachment(object):
     if all([self.attachment_data_ref, self.drive_data_ref]):
       raise ValueError(
           'Only one of [attachmentDataRef, driveDataRef] can be set.')
-    elif not(any([self.attachment_data_ref, self.drive_data_ref])):
+    elif not (any([self.attachment_data_ref, self.drive_data_ref])):
       raise ValueError(f'One of [attachmentDataRef, driveDataRef] must be set.')
 
     return super().to_dict(encode_json)

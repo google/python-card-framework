@@ -14,7 +14,7 @@
 
 import unittest
 
-from ..enums import HorizontalAlignment, Icon as KnownIcon
+from ..enums import HorizontalAlignment
 from .button import Button
 from .icon import Icon
 from .on_click import OnClick
@@ -36,7 +36,7 @@ class ButtonTest(unittest.TestCase):
 
   def test_icon_button(self) -> None:
     i = Button(on_click=OnClick(open_link='http://www.karentaylorart.com'))
-    i.icon = Icon(known_icon=KnownIcon.AIRPLANE)
+    i.icon = Icon(known_icon=Icon.KnownIcon.AIRPLANE)
     self.assertDictEqual(
         i.to_dict(),
         {

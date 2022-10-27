@@ -14,14 +14,17 @@
 import dataclasses
 import dataclasses_json
 
-from card_framework import enum_field, standard_field
-
-from .enums import UserType
+from card_framework import AutoNumber, enum_field, standard_field
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
 class User(object):
+  class UserType(AutoNumber):
+    TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
+    HUMAN = 'HUMAN'
+    BOT = 'BOT'
+
   name: str = standard_field()
   display_name: str = standard_field()
   domain_id: str = standard_field()
