@@ -30,8 +30,8 @@ class TextInput(Widget):
   class Type(AutoNumber):
     """TextInputType
     """
-    SINGLE_LINE = 'SINGLE_LINE'
-    MULTIPLE_LINE = 'MULTIPLE_LINE'
+    SINGLE_LINE = ()
+    MULTIPLE_LINE = ()
 
   name: str = standard_field()
   label: Optional[str] = standard_field()
@@ -41,12 +41,3 @@ class TextInput(Widget):
   on_change_action: Optional[Action] = standard_field()
   initial_suggestions: Optional[Suggestions] = standard_field()
   auto_complete_action: Optional[Action] = standard_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'textInput'

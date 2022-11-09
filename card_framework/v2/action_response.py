@@ -17,41 +17,23 @@ import dataclasses
 from typing import Any, Mapping
 
 import dataclasses_json
-from card_framework import AutoNumber, enum_field, standard_field
+from card_framework import AutoNumber, Renderable, enum_field, standard_field
+from card_framework.v2.widget import Widget
 
 from .dialog_action import DialogAction
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
-class ActionResponse(object):
+class ActionResponse(Renderable):
   class ResponseType(AutoNumber):
-    TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
-    NEW_MESSAGE = 'NEW_MESSAGE'
-    UPDATE_MESSAGE = 'UPDATE_MESSAGE'
-    UPDATE_USER_MESSAGE_CARDS = 'UPDATE_USER_MESSAGE_CARDS'
-    REQUEST_CONFIG = 'REQUEST_CONFIG'
-    DIALOG = 'DIALOG'
-
-  _tag = 'actionResponse'
-
-  @property
-  def tag(self) -> str:
-    return self._tag
-
-  @tag.setter
-  def tag(self, value: str) -> None:
-    self._tag = value
+    TYPE_UNSPECIFIED = ()
+    NEW_MESSAGE = ()
+    UPDATE_MESSAGE = ()
+    UPDATE_USER_MESSAGE_CARDS = ()
+    REQUEST_CONFIG = ()
+    DIALOG = ()
 
   type: ResponseType = enum_field()
   url: str = standard_field()
   dialog_action: DialogAction = standard_field()
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-
-    return {self.tag: self.to_dict()}

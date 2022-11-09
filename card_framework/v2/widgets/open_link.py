@@ -23,14 +23,14 @@ class OpenLink(object):
   class OnClose(AutoNumber):
     """OnClose
     """
-    NOTHING = 'NOTHING'
-    RELOAD = 'RELOAD'
+    NOTHING = ()
+    RELOAD = ()
 
   class OpenAs(AutoNumber):
     """OpenAs
     """
-    FULL_SIZE = 'FULL_SIZE'
-    OVERLAY = 'OVERLAY'
+    FULL_SIZE = ()
+    OVERLAY = ()
 
   url: str = standard_field()
   open_as: str = enum_field()       # Not supported by chat apps

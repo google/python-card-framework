@@ -46,15 +46,6 @@ class DecoratedText(Widget, DataClassJsonMixin):
   switch_control: Optional[SwitchControl] = standard_field()
   end_icon: Optional[Icon] = standard_field()
 
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'decoratedText'
-
   def to_dict(self, encode_json=False) -> Dict[str, Json]:
     """Converts the dataclass to a dict.
 

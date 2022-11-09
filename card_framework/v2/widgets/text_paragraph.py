@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from dataclasses import dataclass
-from dataclasses_json import LetterCase, dataclass_json
+from dataclasses_json import dataclass_json
 
 from card_framework import standard_field
 from ..widget import Widget
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass_json
 @dataclass
 class TextParagraph(Widget):
   """TextParagraph
@@ -28,12 +28,3 @@ class TextParagraph(Widget):
   https://developers.google.com/chat/api/guides/message-formats/cards#textparagraph
   """
   text: str = standard_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'textParagraph'

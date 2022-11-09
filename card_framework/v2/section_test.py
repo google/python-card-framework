@@ -29,10 +29,6 @@ class TestWidget(Widget):
   """Good Widget"""
   text: str = ''
 
-  @property
-  def _widget_tag(self) -> str:
-    return 'testWidget'
-
 
 class SectionTest(unittest.TestCase):
   def test_empty(self) -> None:
@@ -88,6 +84,22 @@ class SectionTest(unittest.TestCase):
     section = Section()
     section.header = header
     section.add_widget(TestWidget(text="You keep using that word..."))
+    section.add_widget(TestWidget(text="Inconceivable!"))
+
+    self.assertEqual(2, len(section.widgets))
+    self.assertEqual({
+        'header': 'Princess Bride',
+        'widgets': [{
+            'testWidget': {'text': 'You keep using that word...'}}, {
+            'testWidget': {'text': 'Inconceivable!'}}],
+    },
+        section.to_dict())
+
+  def test_multiple_widgets_raw_append(self) -> None:
+    header = 'Princess Bride'
+    section = Section()
+    section.header = header
+    section.widgets.append(TestWidget(text="You keep using that word..."))
     section.add_widget(TestWidget(text="Inconceivable!"))
 
     self.assertEqual(2, len(section.widgets))

@@ -11,28 +11,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Mapping, Optional
+from dataclasses import dataclass
+from typing import List, Optional
 
-from dataclasses_json import DataClassJsonMixin, config
-from dataclasses_json.core import Json
-
-from card_framework import list_field, standard_field
+from card_framework import Renderable, list_field, standard_field
+from dataclasses_json import dataclass_json
 
 from .widget import Widget
 
 
+@dataclass_json
 @dataclass
-class Section(DataClassJsonMixin):
+class Section(Renderable):
   """Section
 
   Describes a Google Chat App response Section.
 
   https://developers.google.com/chat/api/guides/message-formats/cards#sections_and_widgets
   """
-
-  # def render_widgets(self, x) -> Dict[str, Json]:
-  #   return [widget.render() for widget in x]
+  __no_root_level__ = True
 
   header: Optional[str] = standard_field()
   widgets: Optional[List[Widget]] = list_field(default_factory=list)
@@ -42,21 +39,10 @@ class Section(DataClassJsonMixin):
   def add_widget(self, widget: Widget) -> None:
     """Adds a widget to the section.
 
-    Widgets need to be added in a specific way, including the tag. Simply adding
-    a widget object to the `List` of widgets is not sufficient. As a result this
-    helper method should be used for safety. This uses the built in widget's
-    attribute `_widget_tag` which will ensure the widget is rendered correctly
-    when necessary.
+    A helper to replicate section.widgets.append(<widget>) as this can be
+    more readable and apparent to an end user.
 
     Args:
         widget (Widget): The widget to be added to the section.
     """
     self.widgets.append(widget)
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return self.to_dict()

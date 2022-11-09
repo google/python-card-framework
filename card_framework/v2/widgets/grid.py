@@ -34,31 +34,14 @@ class Grid(Widget):
   column_count: int = standard_field()
   on_click: OnClick = standard_field()
 
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'grid'
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return {self._widget_tag: self.to_dict(), }
-
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class GridItem(object):
   class GridItemLayout(AutoNumber):
-    GRID_ITEM_LAYOUT_UNSPECIFIED = 'GRID_ITEM_LAYOUT_UNSPECIFIED'
-    TEXT_BELOW = 'TEXT_BELOW'
-    TEXT_ABOVE = 'TEXT_ABOVE'
+    GRID_ITEM_LAYOUT_UNSPECIFIED = ()
+    TEXT_BELOW = ()
+    TEXT_ABOVE = ()
 
   id: str = standard_field()
   image: ImageComponent = standard_field()
@@ -81,11 +64,11 @@ class ImageComponent(object):
 @dataclass
 class ImageCropStyle(object):
   class ImageCropType(AutoNumber):
-    IMAGE_CROP_TYPE_UNSPECIFIED = 'IMAGE_CROP_TYPE_UNSPECIFIED'
-    SQUARE = 'SQUARE'
-    CIRCLE = 'CIRCLE'
-    RECTANGLE_CUSTOM = 'RECTANGLE_CUSTOM'
-    RECTANGLE_4_3 = 'RECTANGLE_4_3'
+    IMAGE_CROP_TYPE_UNSPECIFIED = ()
+    SQUARE = ()
+    CIRCLE = ()
+    RECTANGLE_CUSTOM = ()
+    RECTANGLE_4_3 = ()
 
   type: ImageCropType = enum_field()
   aspect_ratio: float = standard_field()
@@ -95,9 +78,9 @@ class ImageCropStyle(object):
 @dataclass
 class BorderStyle(object):
   class BorderType(AutoNumber):
-    BORDER_TYPE_UNSPECIFIED = 'BORDER_TYPE_UNSPECIFIED'
-    NO_BORDER = 'NO_BORDER'
-    STROKE = 'STROKE'
+    BORDER_TYPE_UNSPECIFIED = ()
+    NO_BORDER = ()
+    STROKE = ()
 
   type: BorderType = enum_field()
   stroke_color: Color = standard_field()

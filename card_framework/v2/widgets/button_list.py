@@ -30,20 +30,3 @@ class ButtonList(Widget):
   https://developers.google.com/chat/api/guides/message-formats/cards#buttonlist
   """
   buttons: List[Button] = list_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'buttonList'
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return {self._widget_tag: self.to_dict()}

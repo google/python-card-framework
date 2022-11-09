@@ -11,31 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
 
 import unittest
-from dataclasses import dataclass
+from dataclasses import Field, dataclass
 from typing import List
 
-from dataclasses_json import LetterCase, dataclass_json
-from card_framework import standard_field
+from dataclasses_json import dataclass_json
 
-from card_framework.v2.enums import HorizontalAlignment
-
-from .widget import Widget
+from card_framework import *
+from card_framework.v2.message import Message
 
 
-@dataclass_json
-@dataclass
-class ValidWidget(Widget):
-  """Good Widget"""
-  camel_case_property: str = standard_field()
+class MessageTest(unittest.TestCase):
+  def test_empty_message(self) -> None:
+    m = Message()
+    m.name = 'Inigo Montoya'
 
-
-class WidgetTest(unittest.TestCase):
-
-  def test_valid_widget_render(self) -> None:
-    widget = ValidWidget()
-    widget.camel_case_property = 'Inigo Montoya'
-    self.assertDictEqual(
-        widget.render(),
-        {'validWidget': {'camelCaseProperty': 'Inigo Montoya'}})
+    self.assertDictEqual(m.render(), {'name': 'Inigo Montoya'})

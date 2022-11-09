@@ -21,9 +21,9 @@ from card_framework import AutoNumber, enum_field, standard_field
 @dataclasses.dataclass
 class User(object):
   class UserType(AutoNumber):
-    TYPE_UNSPECIFIED = 'TYPE_UNSPECIFIED'
-    HUMAN = 'HUMAN'
-    BOT = 'BOT'
+    TYPE_UNSPECIFIED = ()
+    HUMAN = ()
+    BOT = ()
 
   name: str = standard_field()
   display_name: str = standard_field()

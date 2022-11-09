@@ -27,6 +27,8 @@ class TextParagraphTest(unittest.TestCase):
     text_paragraph = TextParagraph(text='Foo!')
     text_paragraph.horizontal_alignment = HorizontalAlignment.CENTER
 
+    print(text_paragraph.render())
+
     self.assertDictEqual(text_paragraph.render(),
                          {'textParagraph': {'text': 'Foo!'},
                           'horizontalAlignment': 'CENTER'})

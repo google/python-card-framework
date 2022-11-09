@@ -31,22 +31,13 @@ class SelectionInput(Widget):
   class SelectionType(AutoNumber):
     """SelectionType
     """
-    SWITCH = 'SWITCH'
-    CHECK_BOX = 'CHECK_BOX'
-    RADIO_BUTTON = 'RADIO_BUTTON'
-    DROPDOWN = 'DROPDOWN'
+    SWITCH = ()
+    CHECK_BOX = ()
+    RADIO_BUTTON = ()
+    DROPDOWN = ()
 
   name: str = standard_field()
   label: Optional[str] = standard_field()
   type: SelectionType = enum_field()
   items: List[SelectionItem] = list_field()
   on_change_action: Optional[Action] = standard_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'selectionInput'

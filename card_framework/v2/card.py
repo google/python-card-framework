@@ -16,7 +16,7 @@ import uuid
 from typing import Any, Iterable, List, Mapping, Optional
 
 import dataclasses_json
-from card_framework import AutoNumber, list_field, standard_field
+from card_framework import AutoNumber, Renderable, list_field, standard_field
 
 from .card_action import CardAction
 from .card_fixed_footer import CardFixedFooter
@@ -27,7 +27,7 @@ from .section import Section
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
                                  undefined=dataclasses_json.Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Card(object):
+class Card(Renderable):
   """Response
 
   A response object that can be `render`ed to produce a valid Google Chat App
@@ -37,20 +37,11 @@ class Card(object):
   full details on what this should look like.
   """
   class DisplayStyle(AutoNumber):
-    DISPLAY_STYLE_UNSPECIFIED = 'DISPLAY_STYLE_UNSPECIFIED'
-    PEEK = 'PEEK'
-    REPLACE = 'REPLACE'
+    DISPLAY_STYLE_UNSPECIFIED = ()
+    PEEK = ()
+    REPLACE = ()
 
-  _tag = 'cards'
   _card_id = None
-
-  @property
-  def tag(self) -> str:
-    return self._tag
-
-  @tag.setter
-  def tag(self, value: str) -> None:
-    self._tag = value
 
   @property
   def card_id(self) -> str:
@@ -76,39 +67,13 @@ class Card(object):
     """
     self.sections.append(section)
 
-  def render(self, remove_empty_strings: bool = False) -> Mapping[str, Any]:
+  def render(self) -> Mapping[str, Any]:
     """Renders the response to json.
 
-    The `strip_nulls` internal function removes all `None` values from the dict
-    before rendering it. Passing the additional `remove_empty_strings`
-    parameter will also remove json keys with no text.
-
-    Args:
-      remove_empty_strings (bool): Also remove empty strings. Default is False.
     Returns:
         Mapping[str, Any]: _description_
     """
-    def strip_nulls(value: Iterable) -> Iterable:
-      """Removes null values from iterables.
-
-      Recursively remove all None values from dictionaries and lists, and
-      return the result as a new dictionary or list.
-
-      Args:
-        value (Any): any list or dict to have empty values removed.
-      """
-      if isinstance(value, list):
-        return [strip_nulls(x) for x in value if x is not None]
-      elif isinstance(value, dict):
-        return {
-            key: strip_nulls(val)
-            for key, val in value.items() if val is not None and
-            not (remove_empty_strings and val == '')
-        }
-      else:
-        return value
-
-    return strip_nulls({
+    return {
         'cardId': self.card_id or str(uuid.uuid4()),
-        'card': self.to_dict(),
-    })
+        **super().render()
+    }

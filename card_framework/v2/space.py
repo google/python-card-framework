@@ -23,10 +23,10 @@ from card_framework import AutoNumber, enum_field, standard_field
 @dataclasses.dataclass
 class Space(object):
   class SpaceType(AutoNumber):
-    SPACE_TYPE_UNSPECIFIED = 'SPACE_TYPE_UNSPECIFIED'
-    SPACE = 'SPACE'
-    GROUP_CHAT = 'GROUP_CHAT'
-    DIRECT_MESSAGE = 'DIRECT_MESSAGE'
+    SPACE_TYPE_UNSPECIFIED = ()
+    SPACE = ()
+    GROUP_CHAT = ()
+    DIRECT_MESSAGE = ()
 
   name: str = standard_field()
   type: str = standard_field()  # deprecated

@@ -31,8 +31,8 @@ class SwitchControl(Widget):
     """ControlType _summary_
 _
     """
-    SWITCH = 'SWITCH'
-    CHECK_BOX = 'CHECK_BOX'
+    SWITCH = ()
+    CHECK_BOX = ()
 
     @classmethod
     def _missing_(cls, value) -> SwitchControl.ControlType:
@@ -59,12 +59,3 @@ _
   selected: bool = standard_field(default=None)
   onChangeAction: Action = standard_field(default=None)
   controlType: ControlType = enum_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'switchControl'

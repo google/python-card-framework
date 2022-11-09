@@ -26,16 +26,16 @@ class ImageType(AutoNumber):
 
   The possible image styles of a Header image.
   """
-  SQUARE = 'SQUARE'
-  CIRCLE = 'CIRCLE'
+  SQUARE = ()
+  CIRCLE = ()
 
 
 class HorizontalAlignment(AutoNumber):
   """HorizontalAlignment
   """
-  START = 'START'
-  CENTER = 'CENTER'
-  END = 'END'
+  START = ()
+  CENTER = ()
+  END = ()
 
   def __str__(self) -> str:
     return self.name

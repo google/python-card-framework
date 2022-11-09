@@ -11,81 +11,37 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
 
 import unittest
+from dataclasses import Field, dataclass
+from typing import List
+
+from dataclasses_json import dataclass_json
 
 from card_framework import *
-from dataclasses import dataclass
-from typing import Any, List, Mapping
-
-from card_framework import list_field, standard_field
-from dataclasses_json import dataclass_json, LetterCase
+from card_framework.v2.action_response import ActionResponse
+from card_framework.v2.action_status import ActionStatus
 
 
 class LazyPropertyTest(unittest.TestCase):
   class Foo(object):
     @lazy_property
-    def lazy_thing(self) -> str:
+    def thing(self) -> str:
       return 'lazy'
 
   def test_lazy_thing(self):
     foo = LazyPropertyTest.Foo()
-    self.assertFalse(hasattr(foo, '_lazy_lazy_thing'))
-    self.assertEqual('lazy', foo.lazy_thing)
-    self.assertTrue(hasattr(foo, '_lazy_lazy_thing'))
+    self.assertFalse(hasattr(foo, 'lazy_thing'))
+    self.assertEqual('lazy', foo.thing)
+    self.assertTrue(hasattr(foo, '_lazy_thing'))
+    with self.assertRaises(AttributeError):
+      foo.thing = 'bar'
 
 
-class TestEnum(AutoNumber):
-  ONE = 'ONE'
-  TWO = 'TWO'
-
-
-class EnumFieldTest(unittest.TestCase):
-  @dataclass_json
-  @dataclass
-  class TestClass(object):
-    field_enum: TestEnum = enum_field()
-
-  def test_no_default(self) -> None:
-    field = enum_field()
-
-    self.assertIsNone(field.default)
-
-  def test_default(self) -> None:
-    field = enum_field(TestEnum.ONE)
-
-    self.assertEqual(field.default, TestEnum.ONE)
-
-  def test_class_render_empty(self) -> None:
-    c = self.TestClass()
-
-    self.assertDictEqual(c.to_dict(), {})
-
-  def test_class_render_populated(self) -> None:
-    c = self.TestClass()
-    c.field_enum = TestEnum.ONE
-
-    self.assertDictEqual(c.to_dict(), {'fieldEnum': 'ONE'})
-
-  def test_class_render_change_case(self) -> None:
-    @dataclass_json
-    @dataclass
-    class ToTest(object):
-      field_enum: TestEnum = enum_field(default=TestEnum.ONE,
-                                        letter_case=LetterCase.SNAKE)
-    c = ToTest()
-
-    self.assertDictEqual(c.to_dict(), {'field_enum': 'ONE'})
-
-  def test_class_render_change_name(self) -> None:
-    @dataclass_json
-    @dataclass
-    class ToTest(object):
-      field_enum: TestEnum = enum_field(default=TestEnum.ONE,
-                                        field_name='foo')
-    c = ToTest()
-
-    self.assertDictEqual(c.to_dict(), {'foo': 'ONE'})
+class TestEnum(enum.Enum):
+  ONE = enum.auto()
+  TWO = enum.auto()
 
 
 class MetadataTest(unittest.TestCase):
@@ -127,3 +83,289 @@ class MetadataTest(unittest.TestCase):
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',
                                    'swordsman': 'Inigo Montoya'})
+
+
+class StandardFieldTest(unittest.TestCase):
+  def test_base_field(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _field: str = standard_field()
+
+    base = Base()
+    base._field = 'foo'
+
+    f: Field = base.__dataclass_fields__.get('_field')
+    self.assertIsNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+
+  def test_field_with_metadata_removed(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _field: str = standard_field(exclude=None)
+
+    base = Base()
+    base._field = 'foo'
+
+    f = base.__dataclass_fields__.get('_field')
+    self.assertIsNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertNotIn('exclude', f.metadata['dataclasses_json'])
+
+  def test_field_with_metadata_edited(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _field: str = standard_field(exclude=True)
+
+    base = Base()
+    base._field = 'foo'
+
+    f = base.__dataclass_fields__.get('_field')
+    self.assertIsNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertTrue(f.metadata['dataclasses_json']['exclude'])
+
+  def test_field_with_default(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _field: str = standard_field(default='Princess Buttercup')
+
+    base = Base()
+
+    f = base.__dataclass_fields__.get('_field')
+    self.assertIsNotNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertEquals(base._field, 'Princess Buttercup')
+
+
+class EnumFieldTest(unittest.TestCase):
+  class Fencer(AutoNumber):
+    DREAD_PIRATE_ROBERTS = ()
+    INIGO_MONTOYA = ()
+    SIX_FINGERED_MAN = ()
+
+  def test_base_field(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _field: EnumFieldTest.Fencer = enum_field()
+
+    base = Base()
+    base._field = EnumFieldTest.Fencer.INIGO_MONTOYA
+
+    f: Field = base.__dataclass_fields__.get('_field')
+    self.assertIsNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertEquals(base._field, EnumFieldTest.Fencer.INIGO_MONTOYA)
+    self.assertDictEqual(base.to_dict(), {'field': 'INIGO_MONTOYA'})
+
+  def test_field_with_edited_encoder(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _enum_field: EnumFieldTest.Fencer = enum_field(
+          encoder=lambda x: x.value if x else None)
+
+    base = Base()
+    base._enum_field = EnumFieldTest.Fencer.SIX_FINGERED_MAN
+
+    f: Field = base.__dataclass_fields__.get('_enum_field')
+    print(EnumFieldTest.Fencer.SIX_FINGERED_MAN.value)
+    print(ActionStatus.Code.ABORTED.value)
+    self.assertIsNone(f.default)
+    self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertDictEqual(
+        base.to_dict(),
+        {'enumField': EnumFieldTest.Fencer.SIX_FINGERED_MAN.value})
+
+  def test_field_with_metadata_removed(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _enum_field: EnumFieldTest.Fencer = enum_field(letter_case=None)
+
+    base = Base()
+    base._enum_field = EnumFieldTest.Fencer.SIX_FINGERED_MAN
+
+    f: Field = base.__dataclass_fields__.get('_enum_field')
+    self.assertIsNotNone(f.metadata)
+    self.assertNotIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertDictEqual(
+        base.to_dict(),
+        {'_enum_field': EnumFieldTest.Fencer.SIX_FINGERED_MAN.name})
+
+
+class ListFieldTest(unittest.TestCase):
+  def test_base_list_field_str(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _list_field: List[str] = list_field()
+
+    base = Base()
+    base._list_field = 'Hello, my name is Inigo Montoya'.split(' ')
+
+    f: Field = base.__dataclass_fields__.get('_list_field')
+    self.assertEquals(f.default_factory, list)
+    self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertListEqual(
+        'Hello, my name is Inigo Montoya'.split(' '), base._list_field)
+    self.assertDictEqual(
+        base.to_dict(),
+        {'listField': ['Hello,', 'my', 'name', 'is', 'Inigo', 'Montoya']})
+
+  def test_base_list_field_int(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _list_field: List[int] = list_field()
+
+    base = Base()
+    base._list_field = [1, 2, 3, 4, 5, ]
+
+    f: Field = base.__dataclass_fields__.get('_list_field')
+    self.assertEquals(f.default_factory, list)
+    self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertListEqual(
+        [1, 2, 3, 4, 5, ], base._list_field)
+    self.assertDictEqual(
+        base.to_dict(),
+        {'listField': [1, 2, 3, 4, 5]})
+
+  def test_base_list_field_no_render(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _list_field: List[ActionStatus] = list_field()
+
+    LIST_UNDER_TEST = [
+        ActionStatus(status_code=ActionStatus.Code.OK,
+                     user_facing_message='Hello, my name is Inigo Montoya'),
+        ActionStatus(status_code=ActionStatus.Code.UNKNOWN,
+                     user_facing_message='Inconcievable!'),
+    ]
+    base = Base()
+    base._list_field = LIST_UNDER_TEST
+
+    f: Field = base.__dataclass_fields__.get('_list_field')
+    self.assertEquals(f.default_factory, list)
+    self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertListEqual(
+        LIST_UNDER_TEST, base._list_field)
+
+    self.assertDictEqual(
+        base.to_dict(),
+        {'listField': [{'statusCode': 'OK',
+                        'userFacingMessage': 'Hello, my name is Inigo Montoya'},
+                       {'statusCode': 'UNKNOWN',
+                        'userFacingMessage': 'Inconcievable!'}]})
+
+  def test_base_list_field_render(self) -> None:
+    """test_base_list_field_render
+
+    ActionResponse has a render method, which causes the tag 'actionResponse' to
+    be the root of each rendered element unlike a `to_dict` call which would
+    drop the camel-cased class name.
+    """
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _list_field: List[ActionResponse] = list_field()
+
+    LIST_UNDER_TEST = [
+        ActionResponse(
+            type=ActionResponse.ResponseType.NEW_MESSAGE,
+            url='http://www.karentaylorart.com'
+        ),
+        ActionResponse(
+            type=ActionResponse.ResponseType.NEW_MESSAGE,
+            url='http://www.imdb.com/title/tt0093779/'
+        ),
+    ]
+    base = Base()
+    base._list_field = LIST_UNDER_TEST
+
+    f: Field = base.__dataclass_fields__.get('_list_field')
+    self.assertEquals(f.default_factory, list)
+    self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertListEqual(
+        LIST_UNDER_TEST, base._list_field)
+
+    self.assertDictEqual(
+        base.to_dict(),
+        {'listField': [
+            {'actionResponse': {'type': 'NEW_MESSAGE',
+                                'url': 'http://www.karentaylorart.com'}},
+            {'actionResponse': {'type': 'NEW_MESSAGE',
+                                'url': 'http://www.imdb.com/title/tt0093779/'}}
+        ]})
+
+  def test_list_with_thing_with_render_property(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Thing(object):
+      render: str = standard_field()
+
+    @dataclass_json
+    @dataclass
+    class Base(object):
+      _list_field: List[Thing] = list_field()
+
+    LIST_UNDER_TEST = [
+        Thing(render='Florin'),
+        Thing(render='Guilder')
+    ]
+    base = Base()
+    base._list_field = LIST_UNDER_TEST
+
+    print(Thing(render='Florin').to_dict())
+    f: Field = base.__dataclass_fields__.get('_list_field')
+    self.assertEquals(f.default_factory, list)
+    self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
+    self.assertIsNotNone(f.metadata)
+    self.assertIn('letter_case', f.metadata['dataclasses_json'])
+    self.assertIn('exclude', f.metadata['dataclasses_json'])
+    self.assertIn('encoder', f.metadata['dataclasses_json'])
+    self.assertListEqual(
+        LIST_UNDER_TEST, base._list_field)
+
+    self.assertDictEqual(
+        base.to_dict(),
+        {'listField': [
+            {'render': 'Florin'},
+            {'render': 'Guilder'},
+        ]})

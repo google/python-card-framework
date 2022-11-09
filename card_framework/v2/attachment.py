@@ -17,17 +17,17 @@ import dataclasses
 from typing import Any, Dict, Mapping
 
 import dataclasses_json
-from card_framework import AutoNumber, enum_field, standard_field
+from card_framework import AutoNumber, Renderable, enum_field, standard_field
 from dataclasses_json.core import Json
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
 @dataclasses.dataclass
-class Attachment(object):
+class Attachment(Renderable):
   class Source(AutoNumber):
-    SOURCE_UNSPECIFIED = 'SOURCE_UNSPECIFIED'
-    DRIVE_FILE = 'DRIVE_FILE'
-    UPLOADED_CONTENT = 'UPLOADED_CONTENT'
+    SOURCE_UNSPECIFIED = ()
+    DRIVE_FILE = ()
+    UPLOADED_CONTENT = ()
 
   name: str = standard_field()
   content_name: str = standard_field()
@@ -59,10 +59,10 @@ class Attachment(object):
     if __value:
       if __name == 'drive_data_ref':
         self.attachment_data_ref = None
-        self.type = Source.DRIVE_FILE
+        self.type = Attachment.Source.DRIVE_FILE
       elif __name == 'attachment_data_ref':
         self.drive_data_ref = None
-        self.type = Source.UPLOADED_CONTENT
+        self.type = Attachment.Source.UPLOADED_CONTENT
 
     super().__setattr__(__name, __value)
 
@@ -88,14 +88,6 @@ class Attachment(object):
       raise ValueError(f'One of [attachmentDataRef, driveDataRef] must be set.')
 
     return super().to_dict(encode_json)
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return {'attachment': self.to_dict(), }
 
 
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)

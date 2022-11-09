@@ -34,12 +34,3 @@ class Image(Widget):
   image_url: str = standard_field()
   on_click: Optional[OnClick] = standard_field()
   alt_text: str = standard_field()
-
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'image'

@@ -31,8 +31,6 @@ class CardTest(unittest.TestCase):
     card.add_section(section)
     output = card.render()
 
-    print(output)
-
     self.assertDictEqual(
         output,
         {
@@ -53,8 +51,6 @@ class CardTest(unittest.TestCase):
     card.card_id = 'vizzini'
     card.add_section(section)
     output = card.render()
-
-    print(output)
 
     self.assertDictEqual(
         output,

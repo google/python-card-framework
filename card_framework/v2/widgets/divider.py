@@ -15,11 +15,4 @@ from ..widget import Widget
 
 
 class Divider(Widget):
-  @property
-  def _widget_tag(self) -> str:
-    """The widget tag name.
-
-    Returns:
-        str: The key by which the widget will be rendered in the Section.
-    """
-    return 'divider'
+  pass

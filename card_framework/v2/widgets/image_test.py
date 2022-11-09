@@ -23,7 +23,6 @@ class ImageTest(unittest.TestCase):
     i = Image(
         image_url='https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg')
 
-    self.assertEqual(i._widget_tag, 'image')
     self.assertEqual(i.image_url,
                      'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg')
     self.assertIsNone(i.on_click)

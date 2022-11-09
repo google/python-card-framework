@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import annotations
+
+import dataclasses
 import enum
 import inspect
-from typing import Any, Callable, Mapping
+import stringcase
+from typing import Any, Callable, List, Mapping
 
 import dataclasses_json
-import dataclasses
 
 
 def lazy_property(f: Callable):
@@ -38,12 +40,14 @@ def lazy_property(f: Callable):
 
 def field(default: Any = None, default_factory: Any = None,
           **metadata) -> dataclasses.Field:
-  return \
-      dataclasses.field(default_factory=default_factory,
-                        metadata=dataclasses_json.config(**metadata)) \
-      if default_factory else \
-      dataclasses.field(default=default,
-                        metadata=dataclasses_json.config(**metadata))
+  return (
+      dataclasses.field(
+          default_factory=default_factory,
+          metadata=dataclasses_json.config(**metadata)
+      ) if default_factory
+      else dataclasses.field(default=default,
+                             metadata=dataclasses_json.config(**metadata))
+  )
 
 
 def metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
@@ -59,35 +63,30 @@ def metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
 
 def standard_field(default: Any = None, default_factory: Any = None,
                    **kwargs) -> dataclasses.Field:
-  base = {
+  base = metadata({
       'letter_case': dataclasses_json.LetterCase.CAMEL,
       'exclude': lambda x: not x
-  }
+  }, **kwargs)
 
-  return field(default=default, default_factory=default_factory,
-               **metadata(base=base, **kwargs))
+  return field(default=default, default_factory=default_factory, **base)
 
 
 def enum_field(default: Any = None, **kwargs) -> dataclasses.Field:
-  base = {
-      'encoder': lambda x: x.name if x else None
-  }
+  base = {'encoder': lambda x: x.name if x else None, **kwargs}
 
-  return standard_field(default=default, **base, **kwargs)
+  return standard_field(default=default, **base)
 
 
-def list_field(default: Any = None, default_factory: Any = list,
+def list_field(default_factory: Any = list,
                **kwargs) -> dataclasses.Field:
-  base = {
-      'encoder': lambda x: [
-          f.render() if inspect.getmembers(
-              f,
-              lambda m: inspect.ismethod(m) and m.__name__ == 'render'
-          ) else f.to_dict() for f in x],
+  def __value(f: Any) -> Any:
+    for a in ['render', 'to_dict']:
+      if (m := getattr(f, a, None)) and callable(m):
+        return m()
 
-  }
+  base = {'encoder': lambda x: [__value(f) or f for f in x], **kwargs}
 
-  return standard_field(default_factory=list, **base, **kwargs)
+  return standard_field(default_factory=default_factory, **base)
 
 
 class AutoNumber(enum.Enum):
@@ -99,3 +98,24 @@ class AutoNumber(enum.Enum):
     obj = object.__new__(cls)
     obj._value_ = value
     return obj
+
+
+class Renderable(object):
+  def render(self) -> Mapping[str, Any]:
+    """Renders the widget in a usable form.
+
+    Returns:
+        Mapping[str, Any]: the json representation of the widget
+    """
+    if getattr(self, '__no_root_level__', None):
+      render = self.to_dict()
+
+    else:
+      render = {stringcase.camelcase(self.__class__.__name__): self.to_dict()}
+      properties = inspect.getmembers(self.__class__,
+                                      lambda v: isinstance(v, property))
+      for (name, value) in properties:
+        if widget_value := value.fget(self):
+          render[stringcase.camelcase(name)] = widget_value
+
+    return render

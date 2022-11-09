@@ -17,7 +17,7 @@ import dataclasses
 from typing import Any, List, Mapping
 
 import dataclasses_json
-from card_framework import list_field, standard_field
+from card_framework import Renderable, list_field, standard_field
 
 from .action_response import ActionResponse
 from .annotation import Annotation
@@ -27,9 +27,11 @@ from .space import Space
 from .user import User
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
-class Message(object):
+class Message(Renderable):
+  __no_root_level__ = True
+
   name: str = standard_field()
   sender: User = standard_field()
   create_time: str = standard_field()
@@ -46,28 +48,20 @@ class Message(object):
   attachment: List[Attachment] = list_field()
   matchedUrl: MatchedUrl = standard_field()
 
-  def render(self, remove_empty_strings: bool = False) -> Mapping[str, Any]:
-    """Renders the response to json.
 
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return self.to_dict()
-
-
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Thread(object):
   name: str = standard_field()
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class SlashCommand(object):
   commandId: str = standard_field()
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class MatchedUrl(object):
   url: str = standard_field()
