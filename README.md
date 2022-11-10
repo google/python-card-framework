@@ -11,7 +11,7 @@ Developer Docs pages here: https://developers.google.com/chat/api/reference/rest
 ## Intention
 
 In order to generate or send messages from a chat application to the user, the
-messages ust be formed of valid JSON objects. In the event that the message is
+messages must be formed of valid JSON objects. In the event that the message is
 malformed, a simple 'Chat App not responding' message is returned. This leads
 to the developer having to insert large blocks of JSON in their Python code,
 much of which is boiler-plate and can easily lead to hard to find cut and paste
