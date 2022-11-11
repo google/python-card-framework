@@ -388,7 +388,7 @@ class RenderableTest(unittest.TestCase):
     @dataclass_json
     @dataclass
     class Base(Renderable):
-      __NO_TAG_NAME__ = True
+      __SUPPRESS_TAG__ = True
       _field: str = standard_field()
 
     base = Base(_field='Hello, my name is Inigo Montoya.')
@@ -401,7 +401,7 @@ class RenderableTest(unittest.TestCase):
     @dataclass_json
     @dataclass
     class Base(Renderable):
-      __TAG_OVERRIDE__ = 'overriddenTagName'
+      __OVERRIDE_TAG__ = 'overriddenTagName'
       _field: str = standard_field()
 
     base = Base(_field='Hello, my name is Inigo Montoya.')

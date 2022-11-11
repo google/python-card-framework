@@ -13,17 +13,17 @@
 # limitations under the License.
 from __future__ import annotations
 
-from dataclasses import dataclass
+import dataclasses
 
+import dataclasses_json
 from card_framework import AutoNumber, enum_field, standard_field
-from dataclasses_json import LetterCase, dataclass_json
 
 from ..widget import Widget
 from .action import Action
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class SwitchControl(Widget):
   """SwitchControl
   """

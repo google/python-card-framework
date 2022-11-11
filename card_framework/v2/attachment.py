@@ -14,14 +14,14 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import Any, Dict, Mapping
+from typing import Any, Dict
 
 import dataclasses_json
 from card_framework import AutoNumber, Renderable, enum_field, standard_field
 from dataclasses_json.core import Json
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Attachment(Renderable):
   class Source(AutoNumber):
@@ -90,13 +90,13 @@ class Attachment(Renderable):
     return super().to_dict(encode_json)
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class AttachmentDataRef(object):
   resource_name: str = standard_field()
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class DriveDataRef(object):
   drive_file_id: str = standard_field()

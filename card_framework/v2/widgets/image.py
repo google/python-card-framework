@@ -11,19 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass
+import dataclasses
 from typing import Optional
 
-from dataclasses_json import LetterCase, dataclass_json
-
+import dataclasses_json
 from card_framework import standard_field
 
-from .on_click import OnClick
 from ..widget import Widget
+from .on_click import OnClick
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class Image(Widget):
   """Image widget.
 

@@ -11,15 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass
+import dataclasses
 
-from dataclasses_json import LetterCase, dataclass_json
-
+import dataclasses_json
 from card_framework import standard_field
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class SelectionItem(object):
   text: str = standard_field()
   value: str = standard_field()

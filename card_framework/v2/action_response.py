@@ -14,16 +14,14 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import Any, Mapping
 
 import dataclasses_json
 from card_framework import AutoNumber, Renderable, enum_field, standard_field
-from card_framework.v2.widget import Widget
 
 from .dialog_action import DialogAction
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class ActionResponse(Renderable):
   class ResponseType(AutoNumber):

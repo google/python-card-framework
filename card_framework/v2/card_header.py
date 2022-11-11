@@ -11,19 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
+import dataclasses
 from typing import Dict, Optional
 
-from dataclasses_json import DataClassJsonMixin, LetterCase, config
-from dataclasses_json.core import Json
-
+import dataclasses_json
 from card_framework import enum_field, standard_field
+from dataclasses_json import core
 
 from .enums import ImageType
 
 
-@dataclass
-class CardHeader(DataClassJsonMixin):
+@dataclasses.dataclass
+class CardHeader(dataclasses_json.DataClassJsonMixin):
   """CardHeader
 
   Describes a Google Chat App response header.
@@ -36,7 +35,7 @@ class CardHeader(DataClassJsonMixin):
   image_type: Optional[ImageType] = enum_field()
   image_alt_text: Optional[str] = standard_field()
 
-  def to_dict(self, encode_json=False) -> Dict[str, Json]:
+  def to_dict(self, encode_json=False) -> Dict[str, core.Json]:
     """Converts the dataclass to a dict.
 
     This is an override of the standard dataclass `to_dict` method to allow

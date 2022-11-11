@@ -11,16 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
+import dataclasses
 from typing import Any, Optional
 
-from dataclasses_json import LetterCase, config, dataclass_json
+import dataclasses_json
 
 from card_framework import standard_field
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class Color(object):
   red: Optional[float] = standard_field()
   green: Optional[float] = standard_field()

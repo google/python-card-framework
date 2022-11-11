@@ -30,7 +30,7 @@ from .user import User
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Message(Renderable):
-  __NO_TAG_NAME__ = True
+  __SUPPRESS_TAG__ = True
 
   name: str = standard_field()
   sender: User = standard_field()

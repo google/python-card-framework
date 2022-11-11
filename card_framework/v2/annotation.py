@@ -23,7 +23,7 @@ from dataclasses_json.core import Json
 from .user import User
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Annotation(card_framework.Renderable):
   class AnnotationType(card_framework.AutoNumber):

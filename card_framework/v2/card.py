@@ -26,8 +26,7 @@ from .card_header import CardHeader
 from .section import Section
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
-                                 undefined=dataclasses_json.Undefined.EXCLUDE)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class RenderableCard(Renderable):
   __card_id = None
@@ -43,8 +42,7 @@ class RenderableCard(Renderable):
   card: Card = standard_field(exclude=lambda x: True)
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
-                                 undefined=dataclasses_json.Undefined.EXCLUDE)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Card(RenderableCard):
   """Response

@@ -16,10 +16,10 @@ from __future__ import annotations
 import dataclasses
 import enum
 import inspect
-import stringcase
-from typing import Any, Callable, List, Mapping
+from typing import Any, Callable, Mapping
 
 import dataclasses_json
+import stringcase
 
 
 def lazy_property(f: Callable):
@@ -105,7 +105,7 @@ class Renderable(object):
 
   Subclasses can also define the following special values, which can be set
   at runtime by the user as well if need be (although I can't think why):
-  __NO_TAG_NAME__ (bool)
+  __SUPPRESS_TAG__ (bool)
     This causes the render method to behave like `to_dict`.
 
   __TAG_OVERRIDE__ (str)
@@ -125,7 +125,7 @@ class Renderable(object):
   However if `SampleWidget` were defined as:
   ```
   class SampleWidget(Renderable):
-    __NO_TAG_NAME__ = True
+    __SUPPRESS_TAG__ = True
     sample_tag: str = standard_field()
   ```
   you'd get
@@ -153,11 +153,11 @@ class Renderable(object):
     Returns:
         Mapping[str, Any]: the json representation of the widget
     """
-    if getattr(self, '__NO_TAG_NAME__', False):
+    if getattr(self, '__SUPPRESS_TAG__', False):
       return self.to_dict()
 
     render = {
-        (getattr(self, '__TAG_OVERRIDE__', False) or
+        (getattr(self, '__OVERRIDE_TAG__', False) or
           stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
     properties = inspect.getmembers(self.__class__,
                                     lambda v: isinstance(v, property))

@@ -11,19 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+import dataclasses
+from typing import Any, Dict, Optional
 
-from dataclasses_json import (DataClassJsonMixin, LetterCase, config)
-from dataclasses_json.core import Json
-
-from card_framework import enum_field, standard_field, AutoNumber
+import dataclasses_json
+from card_framework import AutoNumber, enum_field, standard_field
+from dataclasses_json import core
 
 from ..enums import ImageType
 
 
-@dataclass
-class Icon(DataClassJsonMixin):
+@dataclasses.dataclass
+class Icon(dataclasses_json.DataClassJsonMixin):
   class KnownIcon(AutoNumber):
     """Icon
 
@@ -90,7 +89,7 @@ class Icon(DataClassJsonMixin):
 
     super().__setattr__(__name, __value)
 
-  def to_dict(self, encode_json=False) -> Dict[str, Json]:
+  def to_dict(self, encode_json=False) -> Dict[str, core.Json]:
     """Converts the dataclass to a dict.
 
     This is an override of the standard dataclass `to_dict` method to allow

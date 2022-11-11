@@ -11,15 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass
-from dataclasses_json import dataclass_json
+import dataclasses
 
+import dataclasses_json
 from card_framework import standard_field
+
 from ..widget import Widget
 
 
-@dataclass_json
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class TextParagraph(Widget):
   """TextParagraph
 

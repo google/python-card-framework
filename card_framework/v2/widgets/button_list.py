@@ -11,11 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Iterable, List, Mapping
-from dataclasses_json import LetterCase, dataclass_json, config
+from dataclasses import dataclass
+from typing import List
 
 from card_framework import list_field
+from dataclasses_json import LetterCase, dataclass_json
+
 from ..widget import Widget
 from .button import Button
 

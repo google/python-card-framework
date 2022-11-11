@@ -11,17 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass
+import dataclasses
 from typing import List, Optional
 
+import dataclasses_json
 from card_framework import Renderable, list_field, standard_field
-from dataclasses_json import dataclass_json
 
 from .widget import Widget
 
 
-@dataclass_json
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class Section(Renderable):
   """Section
 
@@ -29,7 +29,7 @@ class Section(Renderable):
 
   https://developers.google.com/chat/api/guides/message-formats/cards#sections_and_widgets
   """
-  __NO_TAG_NAME__ = True
+  __SUPPRESS_TAG__ = True
 
   header: Optional[str] = standard_field()
   widgets: Optional[List[Widget]] = list_field(default_factory=list)

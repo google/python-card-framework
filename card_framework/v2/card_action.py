@@ -11,17 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass
-from typing import Dict, Optional
+import dataclasses
+from typing import Optional
 
+import dataclasses_json
 from card_framework import standard_field
-from dataclasses_json import dataclass_json
 
 from .widgets.on_click import OnClick
 
 
-@dataclass_json
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class CardAction(object):
   action_label: Optional[str] = standard_field()
   on_click: Optional[OnClick] = standard_field()

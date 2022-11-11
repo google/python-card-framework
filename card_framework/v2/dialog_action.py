@@ -22,14 +22,14 @@ from .action_status import ActionStatus
 from .card import Card
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class DialogAction(object):
   action_status: ActionStatus = standard_field()
   dialog: Dialog = standard_field()
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Dialog(object):
   body: Card = standard_field()

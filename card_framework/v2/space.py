@@ -19,7 +19,7 @@ import dataclasses_json
 from card_framework import AutoNumber, enum_field, standard_field
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class Space(object):
   class SpaceType(AutoNumber):
@@ -37,7 +37,7 @@ class Space(object):
   spaceDetails: SpaceDetail = standard_field()
 
 
-@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL)
+@dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class SpaceDetail(object):
   description: str = standard_field()

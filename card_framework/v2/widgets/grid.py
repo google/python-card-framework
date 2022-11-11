@@ -13,11 +13,11 @@
 # limitations under the License.
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, List, Mapping
+import dataclasses
+from typing import List
 
-from card_framework import enum_field, list_field, standard_field, AutoNumber
-from dataclasses_json import LetterCase, config, dataclass_json
+import dataclasses_json
+from card_framework import AutoNumber, enum_field, list_field, standard_field
 
 from ..enums import HorizontalAlignment
 from ..widget import Widget
@@ -25,8 +25,8 @@ from .color import Color
 from .on_click import OnClick
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class Grid(Widget):
   title: str = standard_field()
   items: List[GridItem] = list_field()
@@ -35,8 +35,8 @@ class Grid(Widget):
   on_click: OnClick = standard_field()
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class GridItem(object):
   class GridItemLayout(AutoNumber):
     GRID_ITEM_LAYOUT_UNSPECIFIED = ()
@@ -51,8 +51,8 @@ class GridItem(object):
   layout: GridItemLayout = enum_field()
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class ImageComponent(object):
   image_uri: str = standard_field()
   alt_text: str = standard_field()
@@ -60,8 +60,8 @@ class ImageComponent(object):
   border_style: BorderStyle = standard_field()
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class ImageCropStyle(object):
   class ImageCropType(AutoNumber):
     IMAGE_CROP_TYPE_UNSPECIFIED = ()
@@ -74,8 +74,8 @@ class ImageCropStyle(object):
   aspect_ratio: float = standard_field()
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
 class BorderStyle(object):
   class BorderType(AutoNumber):
     BORDER_TYPE_UNSPECIFIED = ()

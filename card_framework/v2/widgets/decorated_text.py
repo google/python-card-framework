@@ -11,14 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
+import dataclasses
 from typing import Dict, Optional
 
-from dataclasses_json import LetterCase, dataclass_json
-from dataclasses_json import (DataClassJsonMixin, LetterCase, config)
-from dataclasses_json.core import Json
-
+import dataclasses_json
 from card_framework import standard_field
+from dataclasses_json.core import Json
 
 from ..widget import Widget
 from .button import Button
@@ -27,8 +25,9 @@ from .on_click import OnClick
 from .switch_control import SwitchControl
 
 
-@dataclass
-class DecoratedText(Widget, DataClassJsonMixin):
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class DecoratedText(Widget):
   """DecoratedText
 
   This will render a DecoratedText widget.

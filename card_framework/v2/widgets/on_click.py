@@ -11,20 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from dataclasses import dataclass, field
-from typing import Any, Dict, List
+import dataclasses
+from typing import Any, Dict
 
-from dataclasses_json import DataClassJsonMixin, LetterCase, config
-from dataclasses_json.core import Json
-
+import dataclasses_json
 from card_framework import standard_field
+from dataclasses_json import core
 
 from .action import Action
 from .open_link import OpenLink
 
 
-@dataclass
-class OnClick(DataClassJsonMixin):
+@dataclasses.dataclass
+class OnClick(dataclasses_json.DataClassJsonMixin):
   """OnClick
 
   Renders an OnClick widget component.
@@ -59,7 +58,7 @@ class OnClick(DataClassJsonMixin):
 
     super().__setattr__(__name, __value)
 
-  def to_dict(self, encode_json=False) -> Dict[str, Json]:
+  def to_dict(self, encode_json=False) -> Dict[str, core.Json]:
     """Converts the dataclass to a dict.
 
     This is an override of the standard dataclass `to_dict` method to allow

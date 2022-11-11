@@ -16,7 +16,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List
 
-from card_framework import enum_field, list_field, standard_field, AutoNumber
+from card_framework import AutoNumber, enum_field, list_field, standard_field
 from dataclasses_json import dataclass_json
 
 from ..widget import Widget
