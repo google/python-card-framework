@@ -11,9 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
+
 import dataclasses
 import uuid
-from typing import Any, Iterable, List, Mapping, Optional
+from typing import List, Optional
 
 import dataclasses_json
 from card_framework import AutoNumber, Renderable, list_field, standard_field
@@ -27,7 +29,24 @@ from .section import Section
 @dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
                                  undefined=dataclasses_json.Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Card(Renderable):
+class RenderableCard(Renderable):
+  __card_id = None
+
+  @property
+  def card_id(self) -> str:
+    return self.__card_id if self.__card_id else str(uuid.uuid4())
+
+  @card_id.setter
+  def card_id(self, value: str) -> None:
+    self.__card_id = value
+
+  card: Card = standard_field(exclude=lambda x: True)
+
+
+@dataclasses_json.dataclass_json(letter_case=dataclasses_json.LetterCase.CAMEL,
+                                 undefined=dataclasses_json.Undefined.EXCLUDE)
+@dataclasses.dataclass
+class Card(RenderableCard):
   """Response
 
   A response object that can be `render`ed to produce a valid Google Chat App
@@ -40,16 +59,6 @@ class Card(Renderable):
     DISPLAY_STYLE_UNSPECIFIED = ()
     PEEK = ()
     REPLACE = ()
-
-  _card_id = None
-
-  @property
-  def card_id(self) -> str:
-    return self._card_id
-
-  @card_id.setter
-  def card_id(self, value: str) -> None:
-    self._card_id = value
 
   header: Optional[CardHeader] = standard_field()
   name: Optional[str] = standard_field()
@@ -66,14 +75,3 @@ class Card(Renderable):
         section (Section): The section to add.
     """
     self.sections.append(section)
-
-  def render(self) -> Mapping[str, Any]:
-    """Renders the response to json.
-
-    Returns:
-        Mapping[str, Any]: _description_
-    """
-    return {
-        'cardId': self.card_id or str(uuid.uuid4()),
-        **super().render()
-    }

@@ -91,7 +91,7 @@ def list_field(default_factory: Any = list,
 
 class AutoNumber(enum.Enum):
   def __repr__(self):
-    return '<%s.%s>' % (self.__class__.__name__, self.name)
+    return f'{self.__class__.__name__}, {self.name}'
 
   def __new__(cls, *args, **kwargs):
     value = len(cls.__members__) + 1
@@ -101,21 +101,68 @@ class AutoNumber(enum.Enum):
 
 
 class Renderable(object):
+  """Renderable adds a 'render' method to subclasses objects.
+
+  Subclasses can also define the following special values, which can be set
+  at runtime by the user as well if need be (although I can't think why):
+  __NO_TAG_NAME__ (bool)
+    This causes the render method to behave like `to_dict`.
+
+  __TAG_OVERRIDE__ (str)
+    Renames the root tag from the camelCase class name to the specified string.
+
+  Thus, given a fragment like this:
+  ```
+  class SampleWidget(Renderable):
+    sample_tag: str = standard_field()
+
+  s = Sample(sample_tag='Hello, my name is Inigo Montoya.')
+  s.render()
+  ```
+  you would get
+  `{'sampleWidget': {'sampleTag': 'Hello, my name is Inigo Montoya.'}}`
+
+  However if `SampleWidget` were defined as:
+  ```
+  class SampleWidget(Renderable):
+    __NO_TAG_NAME__ = True
+    sample_tag: str = standard_field()
+  ```
+  you'd get
+  `{'sampleTag': 'Hello, my name is Inigo Montoya.'}`
+
+  If it had the override set, thus:
+  ```
+  class SampleWidget(Renderable):
+    __TAG_OVERRIDE__ = 'aSampleWidgetClass'
+    sample_tag: str = standard_field()
+  ```
+  the `render` command would produce
+  `{'aSampleWidgetClass': {'sampleTag': 'Hello, my name is Inigo Montoya.'}}`
+
+  NOTE: the __TAG_OVERRIDE is *NOT* camel-cased. What you enter is what you get.
+
+  A subclass can implement their own `render` method, but it must return the
+  valid Chat API JSON. An examnple of this is the `Card` class which has to add
+  the `cardId` tag level with the `card` itself at the JSON top level.
+  """
+
   def render(self) -> Mapping[str, Any]:
     """Renders the widget in a usable form.
 
     Returns:
         Mapping[str, Any]: the json representation of the widget
     """
-    if getattr(self, '__no_root_level__', None):
-      render = self.to_dict()
+    if getattr(self, '__NO_TAG_NAME__', False):
+      return self.to_dict()
 
-    else:
-      render = {stringcase.camelcase(self.__class__.__name__): self.to_dict()}
-      properties = inspect.getmembers(self.__class__,
-                                      lambda v: isinstance(v, property))
-      for (name, value) in properties:
-        if widget_value := value.fget(self):
-          render[stringcase.camelcase(name)] = widget_value
+    render = {
+        (getattr(self, '__TAG_OVERRIDE__', False) or
+          stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
+    properties = inspect.getmembers(self.__class__,
+                                    lambda v: isinstance(v, property))
+    for (name, value) in properties:
+      if widget_value := value.fget(self):
+        render[stringcase.camelcase(name)] = widget_value
 
     return render

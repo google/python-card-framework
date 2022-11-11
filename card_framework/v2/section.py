@@ -29,7 +29,7 @@ class Section(Renderable):
 
   https://developers.google.com/chat/api/guides/message-formats/cards#sections_and_widgets
   """
-  __no_root_level__ = True
+  __NO_TAG_NAME__ = True
 
   header: Optional[str] = standard_field()
   widgets: Optional[List[Widget]] = list_field(default_factory=list)

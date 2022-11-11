@@ -369,3 +369,43 @@ class ListFieldTest(unittest.TestCase):
             {'render': 'Florin'},
             {'render': 'Guilder'},
         ]})
+
+
+class RenderableTest(unittest.TestCase):
+  def test_render(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(Renderable):
+      _field: str = standard_field()
+
+    base = Base(_field='Hello, my name is Inigo Montoya.')
+
+    self.assertDictEqual(
+        base.render(),
+        {'base': {'field': 'Hello, my name is Inigo Montoya.'}})
+
+  def test_render_no_tag_name(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(Renderable):
+      __NO_TAG_NAME__ = True
+      _field: str = standard_field()
+
+    base = Base(_field='Hello, my name is Inigo Montoya.')
+
+    self.assertDictEqual(
+        base.render(),
+        {'field': 'Hello, my name is Inigo Montoya.'})
+
+  def test_render_tag_override(self) -> None:
+    @dataclass_json
+    @dataclass
+    class Base(Renderable):
+      __TAG_OVERRIDE__ = 'overriddenTagName'
+      _field: str = standard_field()
+
+    base = Base(_field='Hello, my name is Inigo Montoya.')
+
+    self.assertDictEqual(
+        base.render(),
+        {'overriddenTagName': {'field': 'Hello, my name is Inigo Montoya.'}})

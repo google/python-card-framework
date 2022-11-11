@@ -62,3 +62,14 @@ class CardTest(unittest.TestCase):
                       {'textParagraph': {
                           'text': 'Inconceivable!'
                       }}]}]}})
+
+  def test_render_default_card_id(self) -> None:
+    self.maxDiff = None
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = Card()
+    card.add_section(section)
+    output = card.render()
+
+    self.assertTrue('cardId' in output)
+    self.assertIsNotNone(output['cardId'])
