@@ -61,7 +61,7 @@ class Icon(dataclasses_json.DataClassJsonMixin):
 
   alt_text: Optional[str] = standard_field()
   icon_url: Optional[str] = standard_field()
-  image_type: Optional[ImageType] = standard_field()
+  image_type: Optional[ImageType] = enum_field()
   known_icon: Optional[KnownIcon] = enum_field()
 
   def __setattr__(self, __name: str, __value: Any) -> None:

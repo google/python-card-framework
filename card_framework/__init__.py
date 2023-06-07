@@ -16,29 +16,14 @@ from __future__ import annotations
 import dataclasses
 import enum
 import inspect
+from operator import contains
 from typing import Any, Callable, Mapping
 
 import dataclasses_json
 import stringcase
 
 
-def lazy_property(f: Callable):
-  """Decorator that makes a property lazy-evaluated.
-
-  Args:
-    f: the function to convert to a lazy property.
-  """
-  attr_name = '_lazy_' + f.__name__
-
-  @property
-  def _lazy_property(self) -> Any:
-    if not hasattr(self, attr_name):
-      setattr(self, attr_name, f(self))
-    return getattr(self, attr_name)
-  return _lazy_property
-
-
-def field(default: Any = None, default_factory: Any = None,
+def __field(default: Any = None, default_factory: Any = None,
           **metadata) -> dataclasses.Field:
   return (
       dataclasses.field(
@@ -50,25 +35,37 @@ def field(default: Any = None, default_factory: Any = None,
   )
 
 
-def metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
+def merge_metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
+  """Merges metadata with supplied metadata keys.
+
+  This is different from a plain dict.update() as it removes keys defined as
+  `None` allowing any dataclass default behaviour to reassert itself.
+
+  Args:
+      base (Mapping[str, Any]): the base metadata
+      **custom (Any): the list of named metadata parameters to add/edit/remove
+
+  Returns:
+      Mapping[str, Any]: the merged metadata
+  """
   for key in custom:
     if not custom[key] and key in base:
       del base[key]
 
     elif custom[key]:
-      base.update({key: custom[key]})
+      base |= {key: custom[key]}
 
   return base
 
 
 def standard_field(default: Any = None, default_factory: Any = None,
                    **kwargs) -> dataclasses.Field:
-  base = metadata({
+  base = merge_metadata({
       'letter_case': dataclasses_json.LetterCase.CAMEL,
       'exclude': lambda x: not x
   }, **kwargs)
 
-  return field(default=default, default_factory=default_factory, **base)
+  return __field(default=default, default_factory=default_factory, **base)
 
 
 def enum_field(default: Any = None, **kwargs) -> dataclasses.Field:
@@ -91,7 +88,7 @@ def list_field(default_factory: Any = list,
 
 class AutoNumber(enum.Enum):
   def __repr__(self):
-    return f'{self.__class__.__name__}, {self.name}'
+    return f'{self.name}'
 
   def __new__(cls, *args, **kwargs):
     value = len(cls.__members__) + 1
@@ -158,7 +155,7 @@ class Renderable(object):
 
     render = {
         (getattr(self, '__OVERRIDE_TAG__', False) or
-          stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
+         stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
     properties = inspect.getmembers(self.__class__,
                                     lambda v: isinstance(v, property))
     for (name, value) in properties:

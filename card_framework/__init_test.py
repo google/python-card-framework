@@ -15,28 +15,13 @@ from __future__ import annotations
 
 import unittest
 from dataclasses import Field, dataclass
-from typing import List
+from typing import Callable, List
 
 from dataclasses_json import dataclass_json
 
 from card_framework import *
 from card_framework.v2.action_response import ActionResponse
 from card_framework.v2.action_status import ActionStatus
-
-
-class LazyPropertyTest(unittest.TestCase):
-  class Foo(object):
-    @lazy_property
-    def thing(self) -> str:
-      return 'lazy'
-
-  def test_lazy_thing(self):
-    foo = LazyPropertyTest.Foo()
-    self.assertFalse(hasattr(foo, 'lazy_thing'))
-    self.assertEqual('lazy', foo.thing)
-    self.assertTrue(hasattr(foo, '_lazy_thing'))
-    with self.assertRaises(AttributeError):
-      foo.thing = 'bar'
 
 
 class TestEnum(enum.Enum):
@@ -48,21 +33,21 @@ class MetadataTest(unittest.TestCase):
   def test_simple_update(self) -> None:
     base = {'pirate': 'Westley'}
 
-    updated = metadata(base=base, pirate='Dread Pirate Roberts')
+    updated =merge_metadata(base=base, pirate='Dread Pirate Roberts')
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts'})
 
   def test_remove(self) -> None:
     base = {'pirate': 'Dread Pirate Roberts', 'swordsman': 'Inigo Montoya'}
 
-    updated = metadata(base=base, swordsman=None)
+    updated = merge_metadata(base=base, swordsman=None)
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts'})
 
   def test_add(self) -> None:
     base = {'pirate': 'Dread Pirate Roberts', }
 
-    updated = metadata(base=base, swordsman='Inigo Montoya')
+    updated = merge_metadata(base=base, swordsman='Inigo Montoya')
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',
                                    'swordsman': 'Inigo Montoya'})
@@ -70,7 +55,7 @@ class MetadataTest(unittest.TestCase):
   def test_add_and_remove(self) -> None:
     base = {'pirate': 'Dread Pirate Roberts', 'strongman': 'Fezzik'}
 
-    updated = metadata(base=base, swordsman='Inigo Montoya', strongman=None)
+    updated = merge_metadata(base=base, swordsman='Inigo Montoya', strongman=None)
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',
                                    'swordsman': 'Inigo Montoya'})
@@ -78,7 +63,7 @@ class MetadataTest(unittest.TestCase):
   def test_add_update_and_remove(self) -> None:
     base = {'pirate': 'Westley', 'strongman': 'Fezzik'}
 
-    updated = metadata(base=base, swordsman='Inigo Montoya', strongman=None,
+    updated = merge_metadata(base=base, swordsman='Inigo Montoya', strongman=None,
                        pirate='Dread Pirate Roberts')
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',

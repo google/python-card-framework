@@ -33,12 +33,7 @@ class ImageType(AutoNumber):
 class HorizontalAlignment(AutoNumber):
   """HorizontalAlignment
   """
+  HORIZONTAL_ALIGNMENT_UNSPECIFIED = ()
   START = ()
   CENTER = ()
   END = ()
-
-  def __str__(self) -> str:
-    return self.name
-
-  def __repr__(self) -> str:
-    return str(self.name)

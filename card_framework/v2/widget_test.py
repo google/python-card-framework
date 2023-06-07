@@ -39,3 +39,12 @@ class WidgetTest(unittest.TestCase):
     self.assertDictEqual(
         widget.render(),
         {'validWidget': {'camelCaseProperty': 'Inigo Montoya'}})
+
+  def test_aligned_widget_render(self) -> None:
+    widget = ValidWidget()
+    widget.camel_case_property = 'Inigo Montoya'
+    widget.horizontal_alignment = HorizontalAlignment.END
+    self.assertDictEqual(
+        widget.render(),
+        {'horizontalAlignment': 'END',
+         'validWidget': {'camelCaseProperty': 'Inigo Montoya'}})

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-card-framework"
+version = "1.0.1"
+authors = [{ name = "David Harcombe", email = "david.harcombe@gmail.com" }]
+description = "API for rendering Chat App Card json."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+ "Programming Language :: Python :: 3",
+ "Operating System :: OS Independent",
+]
+license = { text = "Apache 2.0" }
+dependencies = ['dataclasses-json>=0.5.2', 'stringcase>=1.2.0']
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["card_framework*"]
+exclude = ["*_test.py"]
+
+[project.urls]
+"Homepage" = "https://github.com/google/python-card-framework"
+"Bug Tracker" = "https://github.com/google/python-card-framework/issues"
