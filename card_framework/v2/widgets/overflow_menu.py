@@ -12,16 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import dataclasses
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 import dataclasses_json
 from card_framework import standard_field
 
+from .action import Action
+from .icon import Icon
+from .open_link import OpenLink
+
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
-class CardAction(object):
-  action_label: Optional[str] = standard_field()
+class OverflowMenuItem(object):
+  start_icon: Optional[Icon] = standard_field()
+  text: Optional[str] = standard_field()
+  # Should be an OnClick, but it can't be done because of a circular
+  # import (OnClick -> OverflowMenu -> OverflowMenuItem -> OnClick)
+  on_click: Optional[Any] = standard_field()
+  disabled: Optional[bool] = standard_field()
 
-  from card_framework.v2.widgets.on_click import OnClick
-  on_click: Optional[OnClick] = standard_field()
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class OverflowMenu(object):
+  items: List[OverflowMenuItem] = standard_field()

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import dataclasses
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 import dataclasses_json
 from card_framework import standard_field
@@ -20,6 +20,7 @@ from dataclasses_json import core
 
 from .action import Action
 from .open_link import OpenLink
+from .overflow_menu import OverflowMenu
 
 
 @dataclasses.dataclass
@@ -32,6 +33,14 @@ class OnClick(dataclasses_json.DataClassJsonMixin):
   """
   action: Action = standard_field()
   open_link: OpenLink = standard_field()
+
+  overflow_menu: OverflowMenu = standard_field()
+
+  open_dynamic_link_action: Action = standard_field()
+
+  # Should be a `Card``, but it can't be done because of a circular
+  # import
+  card: Any = standard_field()
 
   def __setattr__(self, __name: str, __value: Any) -> None:
     """Sets attributes.

@@ -34,7 +34,7 @@ class DateTimePicker(Widget):
 
   name: str = standard_field()
   label: Optional[str] = standard_field()
-  type: DateTimePicker.Type = enum_field()
+  type_: DateTimePicker.Type = enum_field(field_name='type')
   value_ms_epoch: Optional[str] = standard_field()
   timezone_offset_date: Optional[int] = standard_field()
   on_change_action: Optional[Action] = standard_field()

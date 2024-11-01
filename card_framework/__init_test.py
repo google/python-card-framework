@@ -33,7 +33,7 @@ class MetadataTest(unittest.TestCase):
   def test_simple_update(self) -> None:
     base = {'pirate': 'Westley'}
 
-    updated =merge_metadata(base=base, pirate='Dread Pirate Roberts')
+    updated = merge_metadata(base=base, pirate='Dread Pirate Roberts')
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts'})
 
@@ -55,7 +55,8 @@ class MetadataTest(unittest.TestCase):
   def test_add_and_remove(self) -> None:
     base = {'pirate': 'Dread Pirate Roberts', 'strongman': 'Fezzik'}
 
-    updated = merge_metadata(base=base, swordsman='Inigo Montoya', strongman=None)
+    updated = merge_metadata(
+        base=base, swordsman='Inigo Montoya', strongman=None)
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',
                                    'swordsman': 'Inigo Montoya'})
@@ -64,7 +65,7 @@ class MetadataTest(unittest.TestCase):
     base = {'pirate': 'Westley', 'strongman': 'Fezzik'}
 
     updated = merge_metadata(base=base, swordsman='Inigo Montoya', strongman=None,
-                       pirate='Dread Pirate Roberts')
+                             pirate='Dread Pirate Roberts')
 
     self.assertDictEqual(updated, {'pirate': 'Dread Pirate Roberts',
                                    'swordsman': 'Inigo Montoya'})

@@ -16,15 +16,15 @@ from __future__ import annotations
 import dataclasses
 import enum
 import inspect
-from operator import contains
-from typing import Any, Callable, Mapping
+from typing import Any, Mapping, TypeVar, Type
 
 import dataclasses_json
 import stringcase
+from marshmallow import fields
 
 
 def __field(default: Any = None, default_factory: Any = None,
-          **metadata) -> dataclasses.Field:
+            **metadata) -> dataclasses.Field:
   return (
       dataclasses.field(
           default_factory=default_factory,
@@ -69,7 +69,10 @@ def standard_field(default: Any = None, default_factory: Any = None,
 
 
 def enum_field(default: Any = None, **kwargs) -> dataclasses.Field:
-  base = {'encoder': lambda x: x.name if x else None, **kwargs}
+  base = {
+      'encoder': lambda x: x.name if x else None,
+      **kwargs
+  }
 
   return standard_field(default=default, **base)
 
@@ -86,6 +89,30 @@ def list_field(default_factory: Any = list,
   return standard_field(default_factory=default_factory, **base)
 
 
+E = TypeVar('E', bound=enum.Enum)
+def string_enum(cls: Type[E]) -> Type[E]:
+  class EnumField(fields.Field):
+    def _serialize(self, value, attr, obj, **kwargs):
+      return value.name
+
+    def _deserialize(self, value, attr, data, **kwargs):
+      return cls[value]
+
+  if (not hasattr(cls, '__metadata__')):
+    setattr(cls, '__metadata__', dict())
+
+  metadata = {
+      "dataclasses_json": {
+          "encoder": lambda v: v.name if v else None,
+          "decoder": lambda name: cls[name],
+          "mm_field": EnumField(),
+      }
+  }
+
+  cls.__metadata__.update(metadata)
+  return cls
+
+@string_enum
 class AutoNumber(enum.Enum):
   def __repr__(self):
     return f'{self.name}'
@@ -95,6 +122,10 @@ class AutoNumber(enum.Enum):
     obj = object.__new__(cls)
     obj._value_ = value
     return obj
+
+  @classmethod
+  def _missing_(cls, value):
+    return cls[value]
 
 
 class Renderable(object):

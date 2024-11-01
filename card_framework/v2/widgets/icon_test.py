@@ -17,7 +17,6 @@ import unittest
 from .icon import Icon
 
 
-
 class IconTest(unittest.TestCase):
   def test_icon_icon_url(self) -> None:
     i = Icon(
@@ -60,3 +59,13 @@ class IconTest(unittest.TestCase):
 
     with self.assertRaisesRegex(ValueError, 'One of .* must be set\.'):
       i.to_dict()
+
+  def test_material_icon(self) -> None:
+    i = Icon(material_icon=Icon.MaterialIcon(name='home'))
+
+    self.assertIsNone(i.icon_url)
+    self.assertEqual(
+        i.to_dict(),
+        {
+            'materialIcon': {'name': 'home'},
+        })

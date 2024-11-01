@@ -29,3 +29,4 @@ class TextParagraph(Widget):
   https://developers.google.com/chat/api/guides/message-formats/cards#textparagraph
   """
   text: str = standard_field()
+  max_lines: int = standard_field()

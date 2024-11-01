@@ -15,8 +15,9 @@ import dataclasses
 from typing import Optional
 
 import dataclasses_json
-from card_framework import standard_field
+from card_framework import standard_field, enum_field, AutoNumber
 
+from ..widget import Widget
 from .color import Color
 from .icon import Icon
 from .on_click import OnClick
@@ -24,16 +25,26 @@ from .on_click import OnClick
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
-class Button(object):
+class Button(Widget):
   """Button
 
   Renders a Button.
 
-  https://developers.google.com/chat/api/guides/message-formats/cards#buttons
+  https://developers.google.com/workspace/chat/api/reference/rest/v1/cards#button
   """
+  __SUPPRESS_TAG__ = True
+
+  class Type(AutoNumber):
+    TYPE_UNSPECIFIED = ()
+    OUTLINED = ()
+    FILLED = ()
+    FILLED_TONAL = ()
+    BORDERLESS = ()
+
   text: str = standard_field()
   icon: Icon = standard_field()
   color: Optional[Color] = standard_field()
   on_click: OnClick = standard_field()
   disabled: bool = standard_field()
   alt_text: str = standard_field()
+  type_: Type = enum_field(field_name='type')

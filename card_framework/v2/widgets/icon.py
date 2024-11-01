@@ -59,10 +59,20 @@ class Icon(dataclasses_json.DataClassJsonMixin):
     VIDEO_CAMERA = ()
     VIDEO_PLAY = ()
 
+  @dataclasses.dataclass
+  class MaterialIcon(dataclasses_json.DataClassJsonMixin):
+    """MaterialIcon
+    """
+    name: Optional[str] = standard_field()
+    fill: Optional[bool] = standard_field()
+    weight: Optional[int] = standard_field()
+    grade: Optional[int] = standard_field()
+
   alt_text: Optional[str] = standard_field()
-  icon_url: Optional[str] = standard_field()
   image_type: Optional[ImageType] = enum_field()
   known_icon: Optional[KnownIcon] = enum_field()
+  icon_url: Optional[str] = standard_field()
+  material_icon: Optional[MaterialIcon] = standard_field()
 
   def __setattr__(self, __name: str, __value: Any) -> None:
     """Sets attributes.
@@ -104,9 +114,11 @@ class Icon(dataclasses_json.DataClassJsonMixin):
     Returns:
         Dict[str, Json]: The header
     """
-    if all([self.known_icon, self.icon_url]):
-      raise ValueError('Only one of [known_icon, icon_url] can be set.')
-    elif not(any([self.known_icon, self.icon_url])):
-      raise ValueError(f'One of [known_icon, icon_url] must be set.')
+    if all([self.known_icon, self.icon_url, self.material_icon]):
+      raise ValueError('Only one of [known_icon, icon_url, '
+                       'material_icon] can be set.')
+    elif not (any([self.known_icon, self.icon_url, self.material_icon])):
+      raise ValueError('One of [known_icon, icon_url, '
+                       'material_icon] must be set.')
 
     return super().to_dict(encode_json)

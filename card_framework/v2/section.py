@@ -15,9 +15,18 @@ import dataclasses
 from typing import List, Optional
 
 import dataclasses_json
-from card_framework import Renderable, list_field, standard_field
+from card_framework import Renderable, enum_field, list_field, standard_field
+from .enums import HorizontalAlignment
 
+from .widgets.button import Button
 from .widget import Widget
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class CollapseControl(object):
+  horizontal_alignment: HorizontalAlignment = enum_field()
+  expand_button: Button = standard_field()
+  collapse_button: Button = standard_field()
 
 
 @dataclasses_json.dataclass_json
@@ -35,6 +44,7 @@ class Section(Renderable):
   widgets: Optional[List[Widget]] = list_field(default_factory=list)
   collapsible: bool = standard_field()
   uncollapsible_widgets_count: int = standard_field()
+  collapse_control: CollapseControl = standard_field()
 
   def add_widget(self, widget: Widget) -> None:
     """Adds a widget to the section.

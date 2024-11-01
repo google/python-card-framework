@@ -14,7 +14,7 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import Any, List, Mapping
+from typing import Any, List, Mapping, Optional
 
 import dataclasses_json
 from card_framework import Renderable, list_field, standard_field

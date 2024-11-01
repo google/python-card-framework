@@ -19,8 +19,11 @@ from dataclasses_json import LetterCase, dataclass_json
 
 from .enums import HorizontalAlignment
 
-from .section import Section
+from .section import Section, CollapseControl
 from .widget import Widget
+from .widgets.button import Button
+from .widgets.on_click import OnClick
+from .widgets.open_link import OpenLink
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -124,5 +127,29 @@ class SectionTest(unittest.TestCase):
         'widgets': [{
             'horizontalAlignment': 'CENTER',
             'testWidget': {'text': 'You keep using that word...'}}, ],
+    },
+        section.to_dict())
+
+  def test_collapsible_section(self) -> None:
+    widget = TestWidget(text="You keep using that word...")
+    widget.horizontal_alignment = HorizontalAlignment.CENTER
+    widget.to_dict()
+
+    text = 'Inconceivable!'
+    on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
+    button = Button(text=text, on_click=on_click)
+
+    section = Section()
+    section.add_widget(widget)
+    section.collapse_control = CollapseControl(expand_button=button)
+
+    print(section.collapse_control.to_dict())
+
+    self.assertEqual(1, len(section.widgets))
+    self.assertDictEqual({
+        'collapseControl': {'expandButton': {'text': 'Inconceivable!', 'onClick': {
+            'openLink': {'url': 'https://www.karentaylorart.com'}}}},
+        'widgets': [{'horizontalAlignment': 'CENTER',
+                     'testWidget': {'text': 'You keep using that word...'}}, ],
     },
         section.to_dict())

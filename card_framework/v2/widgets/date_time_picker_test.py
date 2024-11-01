@@ -25,10 +25,10 @@ class DateTimePickerTest(unittest.TestCase):
   def test_date_time_picker(self) -> None:
     name = 'Now'
     label = 'A date time picker'
-    type = DateTimePicker.Type.DATE_AND_TIME
+    type_ = DateTimePicker.Type.DATE_AND_TIME
     on_change_action = Action(function='do_this')
 
-    t = DateTimePicker(name=name, type=type, label=label,
+    t = DateTimePicker(name=name, type_=type_, label=label,
                        on_change_action=on_change_action)
 
     self.assertDictEqual(
@@ -40,10 +40,10 @@ class DateTimePickerTest(unittest.TestCase):
 
   def test_date_only_picker(self) -> None:
     name = 'Now'
-    type = DateTimePicker.Type.DATE_ONLY
+    type_ = DateTimePicker.Type.DATE_ONLY
     on_change_action = Action(function='do_this')
 
-    t = DateTimePicker(name=name, type=type,
+    t = DateTimePicker(name=name, type_=type_,
                        on_change_action=on_change_action)
 
     self.assertDictEqual(
@@ -54,10 +54,10 @@ class DateTimePickerTest(unittest.TestCase):
 
   def test_time_only_picker(self) -> None:
     name = 'Now'
-    type = DateTimePicker.Type.TIME_ONLY
+    type_ = DateTimePicker.Type.TIME_ONLY
     on_change_action = Action(function='do_this')
 
-    t = DateTimePicker(name=name, type=type,
+    t = DateTimePicker(name=name, type_=type_,
                        on_change_action=on_change_action)
 
     self.assertDictEqual(

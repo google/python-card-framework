@@ -13,7 +13,8 @@
 # limitations under the License.
 from __future__ import annotations
 
-from card_framework import AutoNumber
+from card_framework import AutoNumber, string_enum
+from enum import auto
 
 # enums.py
 #
@@ -26,8 +27,8 @@ class ImageType(AutoNumber):
 
   The possible image styles of a Header image.
   """
-  SQUARE = ()
-  CIRCLE = ()
+  SQUARE = auto()
+  CIRCLE = auto()
 
 
 class HorizontalAlignment(AutoNumber):

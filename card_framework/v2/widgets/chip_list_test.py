@@ -15,27 +15,51 @@
 import unittest
 
 from ..enums import HorizontalAlignment
-from .button import Button
+from .chip_list import Chip, ChipList
 from .icon import Icon
 from .on_click import OnClick
 from .open_link import OpenLink
 
 
-class ButtonTest(unittest.TestCase):
-  def test_text_button(self) -> None:
-    text = 'Inconceivable!'
+class ChipListTest(unittest.TestCase):
+  chip = Chip(label='Inconceivable!', on_click=OnClick(
+      open_link=OpenLink(url='https://www.karentaylorart.com')))
+
+  def test_multiple_chips(self) -> None:
+    t = ChipList()
+    t.chips.append(self.chip)
+    t.chips.append(self.chip)
+    t.chips.append(self.chip)
+
+    self.assertDictEqual(
+        t.to_dict(),
+        {'chips':
+            [
+                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                 'label': 'Inconceivable!'},
+                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                 'label': 'Inconceivable!'},
+                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                 'label': 'Inconceivable!'},
+            ]}
+    )
+
+
+class ChipTest(unittest.TestCase):
+  def test_label_chip(self) -> None:
+    label = 'Inconceivable!'
     on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
-    t = Button(text=text, on_click=on_click)
+    t = Chip(label=label, on_click=on_click)
 
     self.assertDictEqual(
         t.to_dict(),
         {
             'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
-            'text': 'Inconceivable!'}
+            'label': 'Inconceivable!'}
     )
 
-  def test_icon_button(self) -> None:
-    i = Button(on_click=OnClick(open_link='http://www.karentaylorart.com'))
+  def test_icon_chip(self) -> None:
+    i = Chip(on_click=OnClick(open_link='http://www.karentaylorart.com'))
     i.icon = Icon(known_icon=Icon.KnownIcon.AIRPLANE)
     self.assertDictEqual(
         i.to_dict(),
@@ -46,9 +70,9 @@ class ButtonTest(unittest.TestCase):
         }
     )
 
-  def test_icon_url_button(self) -> None:
+  def test_icon_url_chip(self) -> None:
     self.maxDiff = None
-    i = Button(on_click=OnClick(open_link='http://www.karentaylorart.com'))
+    i = Chip(on_click=OnClick(open_link='http://www.karentaylorart.com'))
     i.icon = Icon(
         icon_url='https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg')
     self.assertDictEqual(
@@ -60,10 +84,10 @@ class ButtonTest(unittest.TestCase):
             'onClick': {'openLink': 'http://www.karentaylorart.com'},
         })
 
-  def test_aligned_text_button(self) -> None:
-    text = 'Inconceivable!'
+  def test_aligned_label_chip(self) -> None:
+    label = 'Inconceivable!'
     on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
-    t = Button(text=text, on_click=on_click)
+    t = Chip(label=label, on_click=on_click)
     t.horizontal_alignment = HorizontalAlignment.CENTER
 
     self.assertDictEqual(
@@ -73,5 +97,22 @@ class ButtonTest(unittest.TestCase):
                 'openLink': {
                     'url': 'https://www.karentaylorart.com'}
             },
-            'text': 'Inconceivable!'}
+            'label': 'Inconceivable!'}
+    )
+
+  def test_disabled_label_chip(self) -> None:
+    label = 'Inconceivable!'
+    on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
+    t = Chip(label=label, on_click=on_click, disabled=True)
+    t.horizontal_alignment = HorizontalAlignment.CENTER
+
+    self.assertDictEqual(
+        t.to_dict(),
+        {
+            'onClick': {
+                'openLink': {
+                    'url': 'https://www.karentaylorart.com'}
+            },
+            'label': 'Inconceivable!',
+            'disabled': True}
     )

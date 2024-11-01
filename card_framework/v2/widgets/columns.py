@@ -62,12 +62,4 @@ class Column(object):
   horizontal_size_style: Optional[Column.HorizontalSizeStyle] = enum_field()
   horizontal_alignment: Optional[Column.HorizontalAlignment] = enum_field()
   vertical_alignment: Optional[Column.VerticalAlignment] = enum_field()
-  widgets: Union[
-      TextParagraph,
-      ImageType,
-      DecoratedText,
-      ButtonList,
-      TextInput,
-      SelectionInput,
-      DateTimePicker,
-  ] = list_field()
+  widgets: Widget = list_field()
