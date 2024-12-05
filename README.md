@@ -21,7 +21,7 @@ As a result this library of objects has been created to alleviate the problem.
 The developer can now create and manipulate first-class Python objects which
 know how to correctly render themselves. Thus, instead of inserting this:
 
-```
+```python
   return {
     "sections": [
         {
@@ -47,8 +47,12 @@ know how to correctly render themselves. Thus, instead of inserting this:
 ```
 
 ... the developer can instead do this (with the appropriate `import`s, of course):
-
+```python
+from card_framework.v2 import Card, CardHeader, Message, Section
+from card_framework.v2.widgets import DecoratedText, Icon
 ```
+
+```python
 text = DecoratedText(top_label='Hello, my name is Inigo Montoya',
                      text='You killed my father. Prepare to die.',
                      start_icon=Icon(known_icon=Icon.KnownIcon.PERSON))
