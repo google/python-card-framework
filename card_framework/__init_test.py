@@ -131,7 +131,7 @@ class StandardFieldTest(unittest.TestCase):
     f = base.__dataclass_fields__.get('_field')
     self.assertIsNotNone(f.default)
     self.assertTrue(isinstance(f.default_factory, dataclasses._MISSING_TYPE))
-    self.assertEquals(base._field, 'Princess Buttercup')
+    self.assertEqual(base._field, 'Princess Buttercup')
 
 
 class EnumFieldTest(unittest.TestCase):
@@ -156,7 +156,7 @@ class EnumFieldTest(unittest.TestCase):
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
     self.assertIn('exclude', f.metadata['dataclasses_json'])
     self.assertIn('encoder', f.metadata['dataclasses_json'])
-    self.assertEquals(base._field, EnumFieldTest.Fencer.INIGO_MONTOYA)
+    self.assertEqual(base._field, EnumFieldTest.Fencer.INIGO_MONTOYA)
     self.assertDictEqual(base.to_dict(), {'field': 'INIGO_MONTOYA'})
 
   def test_field_with_edited_encoder(self) -> None:
@@ -210,7 +210,7 @@ class ListFieldTest(unittest.TestCase):
     base._list_field = 'Hello, my name is Inigo Montoya'.split(' ')
 
     f: Field = base.__dataclass_fields__.get('_list_field')
-    self.assertEquals(f.default_factory, list)
+    self.assertEqual(f.default_factory, list)
     self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
     self.assertIsNotNone(f.metadata)
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
@@ -232,7 +232,7 @@ class ListFieldTest(unittest.TestCase):
     base._list_field = [1, 2, 3, 4, 5, ]
 
     f: Field = base.__dataclass_fields__.get('_list_field')
-    self.assertEquals(f.default_factory, list)
+    self.assertEqual(f.default_factory, list)
     self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
     self.assertIsNotNone(f.metadata)
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
@@ -260,7 +260,7 @@ class ListFieldTest(unittest.TestCase):
     base._list_field = LIST_UNDER_TEST
 
     f: Field = base.__dataclass_fields__.get('_list_field')
-    self.assertEquals(f.default_factory, list)
+    self.assertEqual(f.default_factory, list)
     self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
     self.assertIsNotNone(f.metadata)
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
@@ -302,7 +302,7 @@ class ListFieldTest(unittest.TestCase):
     base._list_field = LIST_UNDER_TEST
 
     f: Field = base.__dataclass_fields__.get('_list_field')
-    self.assertEquals(f.default_factory, list)
+    self.assertEqual(f.default_factory, list)
     self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
     self.assertIsNotNone(f.metadata)
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
@@ -340,7 +340,7 @@ class ListFieldTest(unittest.TestCase):
 
     print(Thing(render='Florin').to_dict())
     f: Field = base.__dataclass_fields__.get('_list_field')
-    self.assertEquals(f.default_factory, list)
+    self.assertEqual(f.default_factory, list)
     self.assertTrue(isinstance(f.default, dataclasses._MISSING_TYPE))
     self.assertIsNotNone(f.metadata)
     self.assertIn('letter_case', f.metadata['dataclasses_json'])
