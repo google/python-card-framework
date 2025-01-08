@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import dataclasses
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import dataclasses_json
 from card_framework import standard_field
@@ -20,7 +20,7 @@ from card_framework import standard_field
 from .action import Action
 from .icon import Icon
 from .open_link import OpenLink
-
+from ..widget import Widget
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
@@ -29,7 +29,7 @@ class OverflowMenuItem(object):
   text: Optional[str] = standard_field()
   # Should be an OnClick, but it can't be done because of a circular
   # import (OnClick -> OverflowMenu -> OverflowMenuItem -> OnClick)
-  on_click: Optional[Any] = standard_field()
+  on_click: Optional[Widget] = standard_field()
   disabled: Optional[bool] = standard_field()
 
 
