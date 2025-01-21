@@ -13,10 +13,11 @@
 # limitations under the License.
 from __future__ import annotations
 
-import dataclasses
+from typing import Optional
 
+import dataclasses
 import dataclasses_json
-from card_framework import Renderable, enum_field
+from card_framework import AutoNumber, enum_field, standard_field, Renderable
 
 from .enums import HorizontalAlignment
 
@@ -27,7 +28,7 @@ class Widget(Renderable):
   """Widget
   """
   __horizontal_alignment: HorizontalAlignment = enum_field(
-    exclude=lambda x: True)
+      exclude=lambda x: True)
 
   @property
   def horizontal_alignment(self) -> str:
@@ -37,3 +38,21 @@ class Widget(Renderable):
   @horizontal_alignment.setter
   def horizontal_alignment(self, a: HorizontalAlignment = None) -> None:
     self.__horizontal_alignment = a
+
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class Validation(Renderable):
+  class InputType(AutoNumber):
+    """InputType _summary_
+_
+    """
+    INPUT_TYPE_UNSPECIFIED = ()
+    TEXT = ()
+    INTEGER = ()
+    FLOAT = ()
+    EMAIL = ()
+    EMOJI_PICKER = ()
+
+  character_limit: Optional[int] = standard_field()
+  input_type: Optional[InputType] = enum_field()

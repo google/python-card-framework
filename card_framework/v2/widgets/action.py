@@ -14,7 +14,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 from card_framework import AutoNumber, enum_field, list_field, standard_field
 from dataclasses_json import dataclass_json
@@ -39,7 +39,9 @@ class Action(Widget):
   parameters: List[ActionParameter] = list_field()
   load_indicator: LoadIndicator = enum_field()
   persist_values: bool = standard_field()
-  interaction: Interaction = enum_field()
+  interaction: Optional[Interaction] = enum_field()
+  required_widgets: Optional[List[str]] = list_field()
+  all_widgets_are_required: Optional[bool] = standard_field()
 
 
 @dataclass_json

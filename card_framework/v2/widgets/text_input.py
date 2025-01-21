@@ -17,7 +17,7 @@ from typing import Optional
 from card_framework import AutoNumber, enum_field, standard_field
 import dataclasses_json
 
-from ..widget import Widget
+from ..widget import Widget, Validation
 from .action import Action
 from .suggestions import Suggestions
 
@@ -41,3 +41,5 @@ class TextInput(Widget):
   on_change_action: Optional[Action] = standard_field()
   initial_suggestions: Optional[Suggestions] = standard_field()
   auto_complete_action: Optional[Action] = standard_field()
+  validation: Optional[Validation] = standard_field()
+  placeholder_text: Optional[str] = standard_field()
