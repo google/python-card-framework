@@ -17,13 +17,23 @@ import unittest
 from card_framework.v2.widgets.action import Action, ActionParameter
 from card_framework.v2.widgets.suggestions import SuggestionItem, Suggestions
 
-from .text_input import TextInput
+from .text_input import TextInput, Validation
 
 
 class TextInputTest(unittest.TestCase):
   def test_simple_render(self) -> None:
     self.assertDictEqual(TextInput(name='Inigo Montoya').render(),
                          {'textInput': {'name': 'Inigo Montoya'}})
+
+  def test_simple_render_with_validation(self) -> None:
+    self.assertDictEqual(
+        TextInput(name='Inigo Montoya',
+                  validation=Validation(
+                      character_limit=80,
+                      input_type=Validation.InputType.EMAIL)).render(),
+        {'textInput': {'name': 'Inigo Montoya',
+                       'validation': {'characterLimit': 80,
+                                      'inputType': 'EMAIL'}}})
 
   def test_render_complete(self) -> None:
     self.maxDiff = None
