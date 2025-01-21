@@ -14,11 +14,10 @@
 
 import unittest
 
-from card_framework.v2.widget import Validation
 from card_framework.v2.widgets.action import Action, ActionParameter
 from card_framework.v2.widgets.suggestions import SuggestionItem, Suggestions
 
-from .text_input import TextInput
+from .text_input import TextInput, Validation
 
 
 class TextInputTest(unittest.TestCase):

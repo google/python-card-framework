@@ -14,12 +14,30 @@
 import dataclasses
 from typing import Optional
 
-from card_framework import AutoNumber, enum_field, standard_field
+from card_framework import AutoNumber, enum_field, standard_field, Renderable
 import dataclasses_json
 
-from ..widget import Widget, Validation
+from ..widget import Widget
 from .action import Action
 from .suggestions import Suggestions
+
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class Validation(Renderable):
+  class InputType(AutoNumber):
+    """InputType _summary_
+_
+    """
+    INPUT_TYPE_UNSPECIFIED = ()
+    TEXT = ()
+    INTEGER = ()
+    FLOAT = ()
+    EMAIL = ()
+    EMOJI_PICKER = ()
+
+  character_limit: Optional[int] = standard_field()
+  input_type: Optional[InputType] = enum_field()
 
 
 @dataclasses_json.dataclass_json
