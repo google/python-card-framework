@@ -18,7 +18,8 @@ import uuid
 from typing import List, Optional
 
 import dataclasses_json
-from card_framework import AutoNumber, Renderable, list_field, standard_field
+from card_framework import AutoNumber, Renderable
+from card_framework import enum_field, list_field, standard_field
 
 from .card_action import CardAction
 from .card_fixed_footer import CardFixedFooter
@@ -29,16 +30,6 @@ from .section import Section
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class RenderableCard(Renderable):
-  __card_id = None
-
-  @property
-  def card_id(self) -> str:
-    return self.__card_id if self.__card_id else str(uuid.uuid4())
-
-  @card_id.setter
-  def card_id(self, value: str) -> None:
-    self.__card_id = value
-
   card: Card = standard_field(exclude=lambda x: True)
 
 
@@ -62,9 +53,6 @@ class Card(RenderableCard):
   name: Optional[str] = standard_field()
   sections: Optional[List[Section]] = list_field(default_factory=list)
   card_actions: Optional[List[CardAction]] = standard_field()
-  fixed_footer: Optional[CardFixedFooter] = standard_field()
-  display_style: Optional[DisplayStyle] = standard_field()
-  peek_card_header: Optional[CardHeader] = standard_field()
 
   def add_section(self, section: Section) -> None:
     """Adds a section to the report.
@@ -73,3 +61,29 @@ class Card(RenderableCard):
         section (Section): The section to add.
     """
     self.sections.append(section)
+
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class CardWithId(Card):
+  card_with_id: Card = standard_field(exclude=lambda x: True)
+  __card_id: str = standard_field(default=None, exclude=lambda x: True)
+  __TAG_OVERRIDE__: str = standard_field(default='card', exclude=lambda x: True)
+
+  @property
+  def card_id(self) -> str:
+    return self.__card_id if self.__card_id else str(uuid.uuid4())
+
+  @card_id.setter
+  def card_id(self, value: str) -> None:
+    self.__card_id = value
+
+  section_divider_style: Optional[DividerStyle] = enum_field()
+  fixed_footer: Optional[CardFixedFooter] = standard_field()
+  display_style: Optional[DisplayStyle] = standard_field()
+  peek_card_header: Optional[CardHeader] = standard_field()
+
+  class DividerStyle(AutoNumber):
+    DIVIDER_STYLE_UNSPECIFIED = ()
+    SOLID_DIVIDER = ()
+    NO_DIVIDER = ()

@@ -45,7 +45,7 @@ class OnClickTest(unittest.TestCase):
     o.open_link = OpenLink(url='https://www.karentaylorart.com')
     self.assertEqual(o.action, None)
     self.assertNotEqual(o.open_link, None)
-    self.assertEqual({'openLink': {'url': 'https://www.karentaylorart.com'}},
+    self.assertEqual({'open_link': {'url': 'https://www.karentaylorart.com'}},
                      o.to_dict())
 
   def test_on_click_action_after_open_link(self) -> None:
@@ -82,5 +82,5 @@ class OnClickTest(unittest.TestCase):
 
     self.assertEqual(o.action, None)
     self.assertNotEqual(o.open_link, None)
-    self.assertEqual({'openLink': {'url': 'https://www.karentaylorart.com'}},
+    self.assertEqual({'open_link': {'url': 'https://www.karentaylorart.com'}},
                      o.to_dict())

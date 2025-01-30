@@ -19,8 +19,12 @@ from typing import List
 
 from dataclasses_json import dataclass_json
 
-from card_framework import *
-from card_framework.v2.message import Message
+from . import *
+from .message import Message
+from .card_header import CardHeader
+from .card import Card, CardWithId
+from .section import Section
+from .widgets.text_paragraph import TextParagraph
 
 
 class MessageTest(unittest.TestCase):
@@ -29,3 +33,34 @@ class MessageTest(unittest.TestCase):
     m.name = 'Inigo Montoya'
 
     self.assertDictEqual(m.render(), {'name': 'Inigo Montoya'})
+
+  def test_cardsV2_message(self) -> None:
+    self.maxDiff = None
+
+    m = Message()
+    m.name = 'Inigo Montoya'
+    header = CardHeader(title='Princess Bride')
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = CardWithId()
+    card.card_id = 'vizzini'
+    card.header = header
+    card.add_section(section)
+    m.cards_v2.append(card)
+    output = m.render()
+    print(output)
+
+    self.assertDictEqual(
+        output,
+        {
+            'name': 'Inigo Montoya',
+            'cards_v2': [{
+                'card': {
+                    'header': {'title': 'Princess Bride'},
+                    'sections': [
+                        {'widgets': [
+                            {'text_paragraph': {'text': 'Inconceivable!'}}
+                        ]}
+                    ]},
+                'card_id': 'vizzini'}
+            ]})

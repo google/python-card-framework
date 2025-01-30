@@ -14,7 +14,7 @@
 
 import unittest
 from .card_header import CardHeader
-from .card import Card
+from .card import Card, CardWithId
 from .section import Section
 from .widgets.text_paragraph import TextParagraph
 
@@ -26,6 +26,47 @@ class CardTest(unittest.TestCase):
     section = Section()
     section.add_widget(TextParagraph(text="Inconceivable!"))
     card = Card()
+    card.header = header
+    card.add_section(section)
+    output = card.render()
+
+    self.assertDictEqual(
+        output,
+        {
+            'card': {
+                'header': {'title': 'Princess Bride'},
+                'sections': [{
+                    'widgets': [
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
+
+  def test_render_no_header(self) -> None:
+    self.maxDiff = None
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = Card()
+    card.add_section(section)
+    output = card.render()
+
+    self.assertDictEqual(
+        output,
+        {
+            'card': {
+                'sections': [{
+                    'widgets': [
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
+
+
+class CardWithIdTest(unittest.TestCase):
+  def test_simple_render(self) -> None:
+    self.maxDiff = None
+    header = CardHeader(title='Princess Bride')
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = CardWithId()
     card.card_id = 'vizzini'
     card.header = header
     card.add_section(section)
@@ -34,12 +75,12 @@ class CardTest(unittest.TestCase):
     self.assertDictEqual(
         output,
         {
-            'cardId': 'vizzini',
+            'card_id': 'vizzini',
             'card': {
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                      {'textParagraph': {
+                      {'text_paragraph': {
                           'text': 'Inconceivable!'
                       }}]}]}})
 
@@ -47,7 +88,7 @@ class CardTest(unittest.TestCase):
     self.maxDiff = None
     section = Section()
     section.add_widget(TextParagraph(text="Inconceivable!"))
-    card = Card()
+    card = CardWithId()
     card.card_id = 'vizzini'
     card.add_section(section)
     output = card.render()
@@ -55,11 +96,11 @@ class CardTest(unittest.TestCase):
     self.assertDictEqual(
         output,
         {
-            'cardId': 'vizzini',
+            'card_id': 'vizzini',
             'card': {
                 'sections': [{
                     'widgets': [
-                      {'textParagraph': {
+                      {'text_paragraph': {
                           'text': 'Inconceivable!'
                       }}]}]}})
 
@@ -67,9 +108,9 @@ class CardTest(unittest.TestCase):
     self.maxDiff = None
     section = Section()
     section.add_widget(TextParagraph(text="Inconceivable!"))
-    card = Card()
+    card = CardWithId()
     card.add_section(section)
     output = card.render()
 
-    self.assertTrue('cardId' in output)
-    self.assertIsNotNone(output['cardId'])
+    self.assertTrue('card_id' in output)
+    self.assertIsNotNone(output['card_id'])
