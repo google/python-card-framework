@@ -157,7 +157,7 @@ class EnumFieldTest(unittest.TestCase):
     self.assertIn('exclude', f.metadata['dataclasses_json'])
     self.assertIn('encoder', f.metadata['dataclasses_json'])
     self.assertEqual(base._field, EnumFieldTest.Fencer.INIGO_MONTOYA)
-    self.assertDictEqual(base.to_dict(), {'field': 'INIGO_MONTOYA'})
+    self.assertDictEqual(base.to_dict(), {'_field': 'INIGO_MONTOYA'})
 
   def test_field_with_edited_encoder(self) -> None:
     @dataclass_json
@@ -180,7 +180,7 @@ class EnumFieldTest(unittest.TestCase):
     self.assertIn('encoder', f.metadata['dataclasses_json'])
     self.assertDictEqual(
         base.to_dict(),
-        {'enumField': EnumFieldTest.Fencer.SIX_FINGERED_MAN.value})
+        {'_enum_field': EnumFieldTest.Fencer.SIX_FINGERED_MAN.value})
 
   def test_field_with_metadata_removed(self) -> None:
     @dataclass_json
@@ -220,7 +220,7 @@ class ListFieldTest(unittest.TestCase):
         'Hello, my name is Inigo Montoya'.split(' '), base._list_field)
     self.assertDictEqual(
         base.to_dict(),
-        {'listField': ['Hello,', 'my', 'name', 'is', 'Inigo', 'Montoya']})
+        {'_list_field': ['Hello,', 'my', 'name', 'is', 'Inigo', 'Montoya']})
 
   def test_base_list_field_int(self) -> None:
     @dataclass_json
@@ -242,7 +242,7 @@ class ListFieldTest(unittest.TestCase):
         [1, 2, 3, 4, 5, ], base._list_field)
     self.assertDictEqual(
         base.to_dict(),
-        {'listField': [1, 2, 3, 4, 5]})
+        {'_list_field': [1, 2, 3, 4, 5]})
 
   def test_base_list_field_no_render(self) -> None:
     @dataclass_json
@@ -271,10 +271,10 @@ class ListFieldTest(unittest.TestCase):
 
     self.assertDictEqual(
         base.to_dict(),
-        {'listField': [{'statusCode': 'OK',
-                        'userFacingMessage': 'Hello, my name is Inigo Montoya'},
-                       {'statusCode': 'UNKNOWN',
-                        'userFacingMessage': 'Inconcievable!'}]})
+        {'_list_field': [{'status_code': 'OK',
+                        'user_facing_message': 'Hello, my name is Inigo Montoya'},
+                       {'status_code': 'UNKNOWN',
+                        'user_facing_message': 'Inconcievable!'}]})
 
   def test_base_list_field_render(self) -> None:
     """test_base_list_field_render
@@ -313,10 +313,10 @@ class ListFieldTest(unittest.TestCase):
 
     self.assertDictEqual(
         base.to_dict(),
-        {'listField': [
-            {'actionResponse': {'type': 'NEW_MESSAGE',
+        {'_list_field': [
+            {'action_response': {'type': 'NEW_MESSAGE',
                                 'url': 'http://www.karentaylorart.com'}},
-            {'actionResponse': {'type': 'NEW_MESSAGE',
+            {'action_response': {'type': 'NEW_MESSAGE',
                                 'url': 'http://www.imdb.com/title/tt0093779/'}}
         ]})
 
@@ -351,7 +351,7 @@ class ListFieldTest(unittest.TestCase):
 
     self.assertDictEqual(
         base.to_dict(),
-        {'listField': [
+        {'_list_field': [
             {'render': 'Florin'},
             {'render': 'Guilder'},
         ]})
@@ -368,7 +368,7 @@ class RenderableTest(unittest.TestCase):
 
     self.assertDictEqual(
         base.render(),
-        {'base': {'field': 'Hello, my name is Inigo Montoya.'}})
+        {'base': {'_field': 'Hello, my name is Inigo Montoya.'}})
 
   def test_render_no_tag_name(self) -> None:
     @dataclass_json
@@ -381,17 +381,17 @@ class RenderableTest(unittest.TestCase):
 
     self.assertDictEqual(
         base.render(),
-        {'field': 'Hello, my name is Inigo Montoya.'})
+        {'_field': 'Hello, my name is Inigo Montoya.'})
 
   def test_render_tag_override(self) -> None:
     @dataclass_json
     @dataclass
     class Base(Renderable):
-      __OVERRIDE_TAG__ = 'overriddenTagName'
+      __TAG_OVERRIDE__ = 'overriddenTagName'
       _field: str = standard_field()
 
     base = Base(_field='Hello, my name is Inigo Montoya.')
 
     self.assertDictEqual(
         base.render(),
-        {'overriddenTagName': {'field': 'Hello, my name is Inigo Montoya.'}})
+        {'overriddenTagName': {'_field': 'Hello, my name is Inigo Montoya.'}})

@@ -23,7 +23,7 @@ from .text_input import TextInput, Validation
 class TextInputTest(unittest.TestCase):
   def test_simple_render(self) -> None:
     self.assertDictEqual(TextInput(name='Inigo Montoya').render(),
-                         {'textInput': {'name': 'Inigo Montoya'}})
+                         {'text_input': {'name': 'Inigo Montoya'}})
 
   def test_simple_render_with_validation(self) -> None:
     self.assertDictEqual(
@@ -31,9 +31,9 @@ class TextInputTest(unittest.TestCase):
                   validation=Validation(
                       character_limit=80,
                       input_type=Validation.InputType.EMAIL)).render(),
-        {'textInput': {'name': 'Inigo Montoya',
-                       'validation': {'characterLimit': 80,
-                                      'inputType': 'EMAIL'}}})
+        {'text_input': {'name': 'Inigo Montoya',
+                       'validation': {'character_limit': 80,
+                                      'input_type': 'EMAIL'}}})
 
   def test_render_complete(self) -> None:
     self.maxDiff = None
@@ -53,10 +53,10 @@ class TextInputTest(unittest.TestCase):
     print(i.render())
 
     self.assertDictEqual(i.render(),
-                         {'textInput': {'name': 'inigo',
+                         {'text_input': {'name': 'inigo',
                                         'label': 'Inigo Montoya',
-                                        'hintText': 'You killed my father.',
-                                        'onChangeAction': {
+                                        'hint_text': 'You killed my father.',
+                                        'on_change_action': {
                                             'function': 'switch_hand',
                                             'parameters': [
                                                 {'key': 'Over too quick',
@@ -65,11 +65,11 @@ class TextInputTest(unittest.TestCase):
                                                  'value': 'right'}
                                             ]},
                                         'value': 'Anything you want.',
-                                        'initialSuggestions': {
+                                        'initial_suggestions': {
                                             'items': [
                                                 {'text': 'Prepare to die.'}
                                             ]},
-                                        'autoCompleteAction': {
+                                        'auto_complete_action': {
                                             'function': 'duel',
                                         }}}
                          )

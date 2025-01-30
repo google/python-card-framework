@@ -35,7 +35,7 @@ class DateTimePickerTest(unittest.TestCase):
         t.to_dict(),
         {'label': 'A date time picker',
             'name': 'Now',
-            'onChangeAction': {'function': 'do_this'},
+            'on_change_action': {'function': 'do_this'},
             'type': 'DATE_AND_TIME'})
 
   def test_date_only_picker(self) -> None:
@@ -49,7 +49,7 @@ class DateTimePickerTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {'name': 'Now',
-         'onChangeAction': {'function': 'do_this'},
+         'on_change_action': {'function': 'do_this'},
          'type': 'DATE_ONLY'})
 
   def test_time_only_picker(self) -> None:
@@ -63,5 +63,5 @@ class DateTimePickerTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {'name': 'Now',
-         'onChangeAction': {'function': 'do_this'},
+         'on_change_action': {'function': 'do_this'},
          'type': 'TIME_ONLY'})

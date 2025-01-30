@@ -61,7 +61,7 @@ def merge_metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
 def standard_field(default: Any = None, default_factory: Any = None,
                    **kwargs) -> dataclasses.Field:
   base = merge_metadata({
-      'letter_case': dataclasses_json.LetterCase.CAMEL,
+      'letter_case': dataclasses_json.LetterCase.SNAKE,
       'exclude': lambda x: not x
   }, **kwargs)
 
@@ -168,7 +168,8 @@ class Renderable(object):
   the `render` command would produce
   `{'aSampleWidgetClass': {'sampleTag': 'Hello, my name is Inigo Montoya.'}}`
 
-  NOTE: the __TAG_OVERRIDE is *NOT* camel-cased. What you enter is what you get.
+  NOTE: the `__TAG_OVERRIDE__` is *NOT* camel-cased. What you enter is what you
+  get.
 
   A subclass can implement their own `render` method, but it must return the
   valid Chat API JSON. An examnple of this is the `Card` class which has to add
@@ -185,12 +186,12 @@ class Renderable(object):
       return self.to_dict()
 
     render = {
-        (getattr(self, '__OVERRIDE_TAG__', False) or
-         stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
+        (getattr(self, '__TAG_OVERRIDE__', False) or
+         stringcase.snakecase(self.__class__.__name__)): self.to_dict()}
     properties = inspect.getmembers(self.__class__,
                                     lambda v: isinstance(v, property))
     for (name, value) in properties:
       if widget_value := value.fget(self):
-        render[stringcase.camelcase(name)] = widget_value
+        render[stringcase.snakecase(name)] = widget_value
 
     return render

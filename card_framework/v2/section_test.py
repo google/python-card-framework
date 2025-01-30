@@ -55,7 +55,7 @@ class SectionTest(unittest.TestCase):
     self.assertEqual({
         'header': 'Princess Bride',
         'widgets': [{
-            'testWidget': {'text': 'You keep using that word...'}}, ],
+            'test_widget': {'text': 'You keep using that word...'}}, ],
     },
         section.to_dict())
 
@@ -79,7 +79,7 @@ class SectionTest(unittest.TestCase):
     self.assertDictEqual(section.to_dict(),
                          {
         'widgets': [{
-            'testWidget': {'text': 'You keep using that word...'}}, ], }
+            'test_widget': {'text': 'You keep using that word...'}}, ], }
     )
 
   def test_multiple_widgets(self) -> None:
@@ -93,8 +93,8 @@ class SectionTest(unittest.TestCase):
     self.assertEqual({
         'header': 'Princess Bride',
         'widgets': [{
-            'testWidget': {'text': 'You keep using that word...'}}, {
-            'testWidget': {'text': 'Inconceivable!'}}],
+            'test_widget': {'text': 'You keep using that word...'}}, {
+            'test_widget': {'text': 'Inconceivable!'}}],
     },
         section.to_dict())
 
@@ -109,8 +109,8 @@ class SectionTest(unittest.TestCase):
     self.assertEqual({
         'header': 'Princess Bride',
         'widgets': [{
-            'testWidget': {'text': 'You keep using that word...'}}, {
-            'testWidget': {'text': 'Inconceivable!'}}],
+            'test_widget': {'text': 'You keep using that word...'}}, {
+            'test_widget': {'text': 'Inconceivable!'}}],
     },
         section.to_dict())
 
@@ -125,8 +125,8 @@ class SectionTest(unittest.TestCase):
     self.assertEqual(1, len(section.widgets))
     self.assertDictEqual({
         'widgets': [{
-            'horizontalAlignment': 'CENTER',
-            'testWidget': {'text': 'You keep using that word...'}}, ],
+            'horizontal_alignment': 'CENTER',
+            'test_widget': {'text': 'You keep using that word...'}}, ],
     },
         section.to_dict())
 
@@ -147,9 +147,10 @@ class SectionTest(unittest.TestCase):
 
     self.assertEqual(1, len(section.widgets))
     self.assertDictEqual({
-        'collapseControl': {'expandButton': {'text': 'Inconceivable!', 'onClick': {
-            'openLink': {'url': 'https://www.karentaylorart.com'}}}},
-        'widgets': [{'horizontalAlignment': 'CENTER',
-                     'testWidget': {'text': 'You keep using that word...'}}, ],
-    },
+        'collapse_control': {
+            'expand_button': {'text': 'Inconceivable!', 'on_click': {
+                'open_link': {'url': 'https://www.karentaylorart.com'}}}},
+        'widgets': [{'horizontal_alignment': 'CENTER',
+                     'test_widget': {
+                         'text': 'You keep using that word...'}}, ], },
         section.to_dict())

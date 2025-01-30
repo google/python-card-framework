@@ -35,11 +35,11 @@ class ChipListTest(unittest.TestCase):
         t.to_dict(),
         {'chips':
             [
-                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                {'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}},
                  'label': 'Inconceivable!'},
-                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                {'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}},
                  'label': 'Inconceivable!'},
-                {'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+                {'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}},
                  'label': 'Inconceivable!'},
             ]}
     )
@@ -54,7 +54,7 @@ class ChipTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {
-            'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
+            'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}},
             'label': 'Inconceivable!'}
     )
 
@@ -65,8 +65,8 @@ class ChipTest(unittest.TestCase):
         i.to_dict(),
         {
             'icon': {
-                'knownIcon': 'AIRPLANE'},
-            'onClick': {'openLink': 'http://www.karentaylorart.com'},
+                'known_icon': 'AIRPLANE'},
+            'on_click': {'open_link': 'http://www.karentaylorart.com'},
         }
     )
 
@@ -79,9 +79,9 @@ class ChipTest(unittest.TestCase):
         i.to_dict(),
         {
             'icon': {
-                'iconUrl': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
+                'icon_url': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
             },
-            'onClick': {'openLink': 'http://www.karentaylorart.com'},
+            'on_click': {'open_link': 'http://www.karentaylorart.com'},
         })
 
   def test_aligned_label_chip(self) -> None:
@@ -93,8 +93,8 @@ class ChipTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {
-            'onClick': {
-                'openLink': {
+            'on_click': {
+                'open_link': {
                     'url': 'https://www.karentaylorart.com'}
             },
             'label': 'Inconceivable!'}
@@ -109,8 +109,8 @@ class ChipTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {
-            'onClick': {
-                'openLink': {
+            'on_click': {
+                'open_link': {
                     'url': 'https://www.karentaylorart.com'}
             },
             'label': 'Inconceivable!',

@@ -25,7 +25,7 @@ class IconTest(unittest.TestCase):
     self.assertDictEqual(
         i.to_dict(),
         {
-            'iconUrl': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
+            'icon_url': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
         })
 
   def test_icon_to_url(self) -> None:
@@ -39,7 +39,7 @@ class IconTest(unittest.TestCase):
         i.to_dict(),
         {
 
-            'knownIcon': 'AIRPLANE',
+            'known_icon': 'AIRPLANE',
         })
 
   def test_url_to_icon(self) -> None:
@@ -51,7 +51,7 @@ class IconTest(unittest.TestCase):
     self.assertEqual(
         i.to_dict(),
         {
-            'iconUrl': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
+            'icon_url': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
         })
 
   def test_must_have_one(self) -> None:
@@ -67,5 +67,5 @@ class IconTest(unittest.TestCase):
     self.assertEqual(
         i.to_dict(),
         {
-            'materialIcon': {'name': 'home'},
+            'material_icon': {'name': 'home'},
         })

@@ -15,6 +15,7 @@ import dataclasses
 
 import dataclasses_json
 from card_framework import standard_field
+from typing import Optional
 
 from ..widget import Widget
 
@@ -29,4 +30,4 @@ class TextParagraph(Widget):
   https://developers.google.com/chat/api/guides/message-formats/cards#textparagraph
   """
   text: str = standard_field()
-  max_lines: int = standard_field()
+  max_lines: Optional[int] = standard_field()
