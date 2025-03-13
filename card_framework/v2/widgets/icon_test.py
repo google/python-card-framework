@@ -57,7 +57,7 @@ class IconTest(unittest.TestCase):
   def test_must_have_one(self) -> None:
     i = Icon()
 
-    with self.assertRaisesRegex(ValueError, 'One of .* must be set\.'):
+    with self.assertRaisesRegex(ValueError, 'One of .* must be set'):
       i.to_dict()
 
   def test_material_icon(self) -> None:
