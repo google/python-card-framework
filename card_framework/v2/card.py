@@ -80,7 +80,7 @@ class CardWithId(Card):
 
   section_divider_style: Optional[DividerStyle] = enum_field()
   fixed_footer: Optional[CardFixedFooter] = standard_field()
-  display_style: Optional[DisplayStyle] = standard_field()
+  display_style: Optional[Card.DisplayStyle] = standard_field()
   peek_card_header: Optional[CardHeader] = standard_field()
 
   class DividerStyle(AutoNumber):
