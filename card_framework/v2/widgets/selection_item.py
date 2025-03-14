@@ -12,14 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import dataclasses
+from typing import List, Optional
 
 import dataclasses_json
-from card_framework import standard_field
+from card_framework import standard_field, list_field, Renderable
 
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
-class SelectionItem(object):
+class SelectionItem(Renderable):
   text: str = standard_field()
   value: str = standard_field()
   selected: bool = standard_field()
+  start_icon_uri: str = standard_field()
+  bottom_text: str = standard_field()
+
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class SelectionItems(Renderable):
+  __SUPPRESS_TAG__ = True
+
+  items: List[SelectionItem] = list_field()

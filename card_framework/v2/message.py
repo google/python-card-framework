@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import annotations
+
 from .emoji import EmojiReactionSummary
 from .user import User
 from .space import Space
@@ -22,7 +23,7 @@ from .action_response import ActionResponse
 from .widgets.button_list import ButtonList
 
 import dataclasses
-from typing import Any, List, Mapping, Optional
+from typing import List
 
 import dataclasses_json
 from card_framework import AutoNumber, Renderable, list_field
@@ -56,10 +57,25 @@ class Message(Renderable):
   client_assigned_message_id: str = standard_field()
   emoji_reaction_summaries: List[EmojiReactionSummary] = list_field()
   private_message_viewer: User = standard_field()
-  deletion_metadata: DeletionMetaData = standard_field()
+  deletion_metadata: DeletionMetadata = standard_field()
   quoted_message_metadata: QuotedMessageMetadata = standard_field()
   attached_gifs: List[AttachedGif] = list_field()
   accessory_widgets: List[AccessoryWidget] = list_field()
+
+
+@dataclasses_json.dataclass_json
+@dataclasses.dataclass
+class DeletionMetadata(object):
+  class DeletionType(AutoNumber):
+    DELETION_TYPE_UNSPECIFIED = ()
+    CREATOR = ()
+    SPACE_OWNER = ()
+    ADMIN = ()
+    APP_MESSAGE_EXPIRY = ()
+    CREATOR_VIA_APP = ()
+    SPACE_OWNER_VIA_APP = ()
+
+  deletion_type: DeletionType = enum_field()
 
 
 @dataclasses_json.dataclass_json
@@ -78,21 +94,6 @@ class SlashCommand(object):
 @dataclasses.dataclass
 class MatchedUrl(object):
   url: str = standard_field()
-
-
-@dataclasses_json.dataclass_json
-@dataclasses.dataclass
-class DeletionMetadata(object):
-  class DeletionType(AutoNumber):
-    DELETION_TYPE_UNSPECIFIED = ()
-    CREATOR = ()
-    SPACE_OWNER = ()
-    ADMIN = ()
-    APP_MESSAGE_EXPIRY = ()
-    CREATOR_VIA_APP = ()
-    SPACE_OWNER_VIA_APP = ()
-
-  deletion_type: DeletionType = enum_field()
 
 
 @dataclasses_json.dataclass_json

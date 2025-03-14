@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "python-card-framework"
-version = "2.1.0"
+version = "2.2.0"
 authors = [{ name = "David Harcombe", email = "david.harcombe@gmail.com" }]
 description = "API for rendering Chat App Card json."
 readme = "README.md"

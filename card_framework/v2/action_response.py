@@ -19,7 +19,7 @@ import dataclasses_json
 from card_framework import AutoNumber, Renderable, enum_field, standard_field
 
 from .dialog_action import DialogAction
-
+from .widgets.selection_input import UpdatedWidget
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
@@ -35,3 +35,4 @@ class ActionResponse(Renderable):
   type: ResponseType = enum_field()
   url: str = standard_field()
   dialog_action: DialogAction = standard_field()
+  updated_widget: UpdatedWidget = standard_field()

@@ -13,7 +13,7 @@
 # limitations under the License.
 from __future__ import annotations
 
-from card_framework import AutoNumber, string_enum
+from card_framework import AutoNumber
 from enum import auto
 
 # enums.py
