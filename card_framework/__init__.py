@@ -16,7 +16,7 @@ from __future__ import annotations
 import dataclasses
 import enum
 import inspect
-from typing import Any, Mapping, TypeVar, Type
+from typing import Any, Mapping, Type, TypeVar
 
 import dataclasses_json
 import stringcase

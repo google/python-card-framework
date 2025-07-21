@@ -42,7 +42,7 @@ class SelectionInput(Widget):
   name: str = standard_field()
   label: Optional[str] = standard_field()
   type: SelectionType = enum_field()
-  items: SelectionItems = standard_field()
+  items: List[SelectionItem] = list_field()
   on_change_action: Optional[Action] = standard_field()
   multi_select_max_selected_items: int = standard_field()
   multi_select_min_query_length: int = standard_field()
@@ -55,8 +55,6 @@ class SelectionInput(Widget):
     return super().to_dict(encode_json)
 
   def render(self) -> Mapping[str, Any]:
-    self.items = self.items.items if self.items else None
-
     return super().render()
 
 
@@ -94,32 +92,4 @@ class ChatClientDataSourceMarkup(object):
 @dataclasses.dataclass
 class SpaceDataSource(object):
   default_to_current_space: bool = standard_field(default=False)
-
-
-@dataclasses_json.dataclass_json
-@dataclasses.dataclass
-class SpaceDataSource(object):
-  default_to_current_space: bool = standard_field(default=False)
-
-
-@dataclasses_json.dataclass_json
-@dataclasses.dataclass
-class ChatClientDataSourceMarkup(object):
-  space_data_source: SpaceDataSource = standard_field()
-
-
-@dataclasses_json.dataclass_json
-@dataclasses.dataclass
-class HostAppDataSourceMarkup(object):
-  chat_data_source: ChatClientDataSourceMarkup = standard_field()
-
-
-@dataclasses_json.dataclass_json
-@dataclasses.dataclass
-class PlatformDataSource(object):
-  class CommonDataSource(AutoNumber):
-    UNKNOWN = ()
-    USER = ()
-
-  common_data_source: CommonDataSource = enum_field()
-  host_app_data_source: HostAppDataSourceMarkup = standard_field()
+  []

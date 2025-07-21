@@ -13,8 +13,9 @@
 # limitations under the License.
 
 import unittest
-from .card_header import CardHeader
+
 from .card import Card, CardWithId
+from .card_header import CardHeader
 from .section import Section
 from .widgets.text_paragraph import TextParagraph
 
@@ -80,9 +81,32 @@ class CardWithIdTest(unittest.TestCase):
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                      {'text_paragraph': {
-                          'text': 'Inconceivable!'
-                      }}]}]}})
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
+
+  def test_simple_render_sub_card(self) -> None:
+    self.maxDiff = None
+    header = CardHeader(title='Princess Bride')
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = CardWithId()
+    card.card_id = 'vizzini'
+    card.header = header
+    card.add_section(section)
+    output = card.card().render()
+    print(output)
+
+    self.assertDictEqual(
+        output,
+        {
+            'card': {
+                'header': {'title': 'Princess Bride'},
+                'sections': [{
+                    'widgets': [
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
 
   def test_render_no_header(self) -> None:
     self.maxDiff = None
@@ -100,9 +124,9 @@ class CardWithIdTest(unittest.TestCase):
             'card': {
                 'sections': [{
                     'widgets': [
-                      {'text_paragraph': {
-                          'text': 'Inconceivable!'
-                      }}]}]}})
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
 
   def test_render_default_card_id(self) -> None:
     self.maxDiff = None
@@ -114,3 +138,27 @@ class CardWithIdTest(unittest.TestCase):
 
     self.assertTrue('card_id' in output)
     self.assertIsNotNone(output['card_id'])
+
+  def test_rename_element(self) -> None:
+    self.maxDiff = None
+    header = CardHeader(title='Princess Bride')
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = CardWithId()
+    card.__TAG_OVERRIDE__ = 'pushCard'
+    card.card_id = 'vizzini'
+    card.header = header
+    card.add_section(section)
+    output = card.render()
+
+    self.assertDictEqual(
+        output,
+        {
+            'card_id': 'vizzini',
+            'pushCard': {
+                'header': {'title': 'Princess Bride'},
+                'sections': [{
+                    'widgets': [
+                        {'text_paragraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})

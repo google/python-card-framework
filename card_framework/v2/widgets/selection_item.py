@@ -15,12 +15,15 @@ import dataclasses
 from typing import List, Optional
 
 import dataclasses_json
-from card_framework import standard_field, list_field, Renderable
+
+from card_framework import Renderable, list_field, standard_field
 
 
 @dataclasses_json.dataclass_json
 @dataclasses.dataclass
 class SelectionItem(Renderable):
+  __SUPPRESS_TAG__ = True
+
   text: str = standard_field()
   value: str = standard_field()
   selected: bool = standard_field()

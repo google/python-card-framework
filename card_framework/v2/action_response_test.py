@@ -23,6 +23,8 @@ from card_framework.v2.user import User
 
 
 class ActionResponseTest(unittest.TestCase):
+  maxDiff = None
+
   def test_render_action_response(self) -> None:
     items = SelectionItems()
     items.items = [
@@ -46,11 +48,11 @@ class ActionResponseTest(unittest.TestCase):
                 'widget': 'inigo',
                 'suggestions': {
                     'items': [
-                        {'selection_item': {
+                        {
                           'text': 'left hand',
                           'value': 'l',
-                          'selected': True}},
-                        {'selection_item': {
+                          'selected': True},
+                        {
                             'text': 'right hand',
-                            'value': 'r'}}]}}}}
+                            'value': 'r'}]}}}}
     )

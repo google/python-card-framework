@@ -26,8 +26,7 @@ class SelectionInputTest(unittest.TestCase):
 
   def test_render_complete(self) -> None:
     self.maxDiff = None
-    items = SelectionItems()
-    items.items = [
+    items = [
         SelectionItem(text='left hand', value='l', selected=True),
         SelectionItem(text='right hand', value='r'),
     ]

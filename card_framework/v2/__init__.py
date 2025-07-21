@@ -16,7 +16,7 @@ from .action_response import ActionResponse
 from .action_status import ActionStatus
 from .annotation import Annotation, SlashCommandMetadata, UserMentionMetadata
 from .attachment import Attachment, AttachmentDataRef, DriveDataRef
-from .card import Card, RenderableCard
+from .card import Card
 from .card_action import CardAction
 from .card_fixed_footer import CardFixedFooter
 from .card_header import CardHeader
@@ -41,7 +41,6 @@ __all__ = [
     "CardFixedFooter",
     "CardHeader",
     "Card",
-    "RenderableCard",
     "Dialog",
     "DialogAction",
     "HorizontalAlignment",
