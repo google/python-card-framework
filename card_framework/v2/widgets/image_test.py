@@ -27,7 +27,7 @@ class ImageTest(unittest.TestCase):
                      'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg')
     self.assertIsNone(i.on_click)
     self.assertDictEqual({
-        'image_url':
+        'imageUrl':
         'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
     },
         i.to_dict())
@@ -44,6 +44,6 @@ class ImageTest(unittest.TestCase):
     self.assertEqual(i.on_click, on_click)
     self.assertEqual(
         i.to_dict(),
-        {'image_url':
+        {'imageUrl':
          'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
-         'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}}})
+         'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}}})

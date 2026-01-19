@@ -61,7 +61,7 @@ def merge_metadata(base: Mapping[str, Any], **custom) -> Mapping[str, Any]:
 def standard_field(default: Any = None, default_factory: Any = None,
                    **kwargs) -> dataclasses.Field:
   base = merge_metadata({
-      'letter_case': dataclasses_json.LetterCase.SNAKE,
+      'letter_case': dataclasses_json.LetterCase.CAMEL,
       'exclude': lambda x: not x
   }, **kwargs)
 
@@ -187,11 +187,11 @@ class Renderable(object):
 
     render = {
         (getattr(self, '__TAG_OVERRIDE__', False) or
-         stringcase.snakecase(self.__class__.__name__)): self.to_dict()}
+         stringcase.camelcase(self.__class__.__name__)): self.to_dict()}
     properties = inspect.getmembers(self.__class__,
                                     lambda v: isinstance(v, property))
     for (name, value) in properties:
       if widget_value := value.fget(self):
-        render[stringcase.snakecase(name)] = widget_value
+        render[stringcase.camelcase(name)] = widget_value
 
     return render

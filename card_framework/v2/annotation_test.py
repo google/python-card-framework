@@ -30,8 +30,8 @@ class AnnotationTest(unittest.TestCase):
 
     self.assertDictEqual(
         a.render(),
-        {'annotation': {'slash_command': {'command_id': 1,
-                                         'command_name': '/tothepain',
+        {'annotation': {'slashCommand': {'commandId': 1,
+                                         'commandName': '/tothepain',
                                          'type': 'INVOKE'},
                         'type': 'SLASH_COMMAND'}}
     )
@@ -51,10 +51,10 @@ class AnnotationTest(unittest.TestCase):
         a.render(),
         {'annotation': {
             'type': 'USER_MENTION',
-            'user_mention': {
+            'userMention': {
                 'type': 'MENTION',
                 'user': {
-                    'display_name': 'Dread Pirate Roberts',
+                    'displayName': 'Dread Pirate Roberts',
                     'name': 'westley',
                     'type': 'HUMAN'
                 }

@@ -21,7 +21,7 @@ from .text_paragraph import TextParagraph
 class TextParagraphTest(unittest.TestCase):
   def test_simple_render(self) -> None:
     self.assertDictEqual(TextParagraph(text='Foo!').render(),
-                         {'text_paragraph': {'text': 'Foo!'}})
+                         {'textParagraph': {'text': 'Foo!'}})
 
   def test_aligned(self) -> None:
     text_paragraph = TextParagraph(text='Foo!')
@@ -30,5 +30,5 @@ class TextParagraphTest(unittest.TestCase):
     print(text_paragraph.render())
 
     self.assertDictEqual(text_paragraph.render(),
-                         {'text_paragraph': {'text': 'Foo!'},
-                          'horizontal_alignment': 'CENTER'})
+                         {'textParagraph': {'text': 'Foo!'},
+                          'horizontalAlignment': 'CENTER'})

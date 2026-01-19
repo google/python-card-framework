@@ -16,7 +16,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from dataclasses_json import dataclass_json
+from dataclasses_json import LetterCase, dataclass_json
 
 from card_framework import AutoNumber, enum_field, standard_field
 
@@ -24,7 +24,7 @@ from ..widget import Widget
 from .action import Action
 
 
-@dataclass_json
+@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class DateTimePicker(Widget):
   class Type(AutoNumber):

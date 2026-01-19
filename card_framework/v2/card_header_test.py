@@ -31,9 +31,9 @@ class HeaderTest(unittest.TestCase):
     self.assertDictEqual(
         h.to_dict(),
         {
-            'image_type': 'CIRCLE',
-            'image_alt_text': "It's as real as the feelings you feel.",
-            'image_url': 'https://en.wikipedia.org/wiki/File:Princess_bride.jpg',
+            'imageType': 'CIRCLE',
+            'imageAltText': "It's as real as the feelings you feel.",
+            'imageUrl': 'https://en.wikipedia.org/wiki/File:Princess_bride.jpg',
             'subtitle': "There's a shortage of perfect movies in this world. "
                         "It would be a pity to damage this one.",
             'title': 'The Princess Bride'})

@@ -33,14 +33,14 @@ class ColumnsTest(unittest.TestCase):
 
     self.assertDictEqual(
         c.to_dict(),
-        {'column_items': [{'horizontal_alignment': 'START',
-                          'widgets': [{'decorated_text': {'text': 'You are using '
-                                                          "Bonetti's defense "
-                                                          'against me!'}}]},
-                          {'horizontal_alignment': 'END',
-                          'widgets': [{'decorated_text': {'text': 'I thought it fitting '
-                                                          'considering the '
-                                                          'rocky terrain.'}}]}]}
+        {'columnItems': [{'horizontalAlignment': 'START',
+                          'widgets': [{'decoratedText': {'text': 'You are using '
+                                                         "Bonetti's defense "
+                                                         'against me!'}}]},
+                         {'horizontalAlignment': 'END',
+                          'widgets': [{'decoratedText': {'text': 'I thought it fitting '
+                                                         'considering the '
+                                                         'rocky terrain.'}}]}]}
     )
 
   def test_two_columns_multiple_widgets(self) -> None:
@@ -62,21 +62,21 @@ class ColumnsTest(unittest.TestCase):
 
     self.assertDictEqual(
         c.to_dict(),
-        {'column_items': [{'horizontal_alignment': 'START',
-                          'widgets': [{'decorated_text': {'text': 'You are using '
-                                                          "Bonetti's defense "
-                                                          'against me!'}},
-                                      {'decorated_text': {'text': 'You must expect me '
-                                                          'to respond with '
-                                                          'Capaferro.'}}]},
-                          {'horizontal_alignment': 'END',
-                          'widgets': [{'decorated_text': {'text': 'I thought it fitting '
-                                                          'considering the '
-                                                          'rocky terrain.'}},
-                                      {'decorated_text': {'text': 'Natually, but I find '
-                                                          'Tybalt cancels out '
-                                                          "Capaferro, don't "
-                                                          'you?'}}]}]}
+        {'columnItems': [{'horizontalAlignment': 'START',
+                          'widgets': [{'decoratedText': {'text': 'You are using '
+                                                         "Bonetti's defense "
+                                                         'against me!'}},
+                                      {'decoratedText': {'text': 'You must expect me '
+                                                         'to respond with '
+                                                         'Capaferro.'}}]},
+                         {'horizontalAlignment': 'END',
+                          'widgets': [{'decoratedText': {'text': 'I thought it fitting '
+                                                         'considering the '
+                                                         'rocky terrain.'}},
+                                      {'decoratedText': {'text': 'Natually, but I find '
+                                                         'Tybalt cancels out '
+                                                         "Capaferro, don't "
+                                                         'you?'}}]}]}
 
     )
 
@@ -103,26 +103,26 @@ class ColumnsTest(unittest.TestCase):
 
     self.assertDictEqual(
         c.to_dict(),
-        {'column_items': [{'horizontal_alignment': 'START',
-                          'vertical_alignment': 'TOP',
-                           'widgets': [{'decorated_text': {'text': 'You are using '
-                                                           "Bonetti's defense "
-                                                           'against me!'}},
-                                       {'decorated_text': {'text': 'You must expect me '
-                                                           'to respond with '
-                                                           'Capaferro.'}},
-                                       {'decorated_text': {'text': 'Only if your enemy '
-                                                           "hasn't studied his "
-                                                           'Agrippa. Which I '
-                                                           'have!'}}]},
-                          {'horizontal_alignment': 'END',
-                          'vertical_alignment': 'TOP',
-                           'widgets': [{'decorated_text': {'text': 'I thought it fitting '
-                                                           'considering the '
-                                                           'rocky terrain.'}},
-                                       {'decorated_text': {'text': 'Natually, but I find '
-                                                           'Tybalt cancels out '
-                                                           "Capaferro, don't "
-                                                           'you?'}}]}]}
+        {'columnItems': [{'horizontalAlignment': 'START',
+                          'verticalAlignment': 'TOP',
+                          'widgets': [{'decoratedText': {'text': 'You are using '
+                                                         "Bonetti's defense "
+                                                         'against me!'}},
+                                      {'decoratedText': {'text': 'You must expect me '
+                                                         'to respond with '
+                                                         'Capaferro.'}},
+                                      {'decoratedText': {'text': 'Only if your enemy '
+                                                         "hasn't studied his "
+                                                         'Agrippa. Which I '
+                                                         'have!'}}]},
+                         {'horizontalAlignment': 'END',
+                          'verticalAlignment': 'TOP',
+                          'widgets': [{'decoratedText': {'text': 'I thought it fitting '
+                                                         'considering the '
+                                                         'rocky terrain.'}},
+                                      {'decoratedText': {'text': 'Natually, but I find '
+                                                         'Tybalt cancels out '
+                                                         "Capaferro, don't "
+                                                         'you?'}}]}]}
 
     )

@@ -54,13 +54,13 @@ class MessageTest(unittest.TestCase):
         output,
         {
             'name': 'Inigo Montoya',
-            'cards_v2': [{
+            'cardsV2': [{
                 'card': {
                     'header': {'title': 'Princess Bride'},
                     'sections': [
                         {'widgets': [
-                            {'text_paragraph': {'text': 'Inconceivable!'}}
+                            {'textParagraph': {'text': 'Inconceivable!'}}
                         ]}
                     ]},
-                'card_id': 'vizzini'}
+                'cardId': 'vizzini'}
             ]})

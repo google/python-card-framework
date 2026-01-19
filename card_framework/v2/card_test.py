@@ -18,6 +18,7 @@ from .card import Card, CardWithId
 from .card_header import CardHeader
 from .section import Section
 from .widgets.text_paragraph import TextParagraph
+from .widgets.date_time_picker import DateTimePicker
 
 
 class CardTest(unittest.TestCase):
@@ -38,7 +39,7 @@ class CardTest(unittest.TestCase):
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})
 
@@ -56,7 +57,26 @@ class CardTest(unittest.TestCase):
             'card': {
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
+
+  def test_tag_override(self) -> None:
+    self.maxDiff = None
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card = Card()
+    card.add_section(section)
+    card.__TAG_OVERRIDE__ = 'pushCard'
+    output = card.render()
+
+    self.assertDictEqual(
+        output,
+        {
+            'pushCard': {
+                'sections': [{
+                    'widgets': [
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})
 
@@ -76,12 +96,12 @@ class CardWithIdTest(unittest.TestCase):
     self.assertDictEqual(
         output,
         {
-            'card_id': 'vizzini',
+            'cardId': 'vizzini',
             'card': {
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})
 
@@ -104,7 +124,7 @@ class CardWithIdTest(unittest.TestCase):
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})
 
@@ -120,11 +140,11 @@ class CardWithIdTest(unittest.TestCase):
     self.assertDictEqual(
         output,
         {
-            'card_id': 'vizzini',
+            'cardId': 'vizzini',
             'card': {
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})
 
@@ -136,10 +156,10 @@ class CardWithIdTest(unittest.TestCase):
     card.add_section(section)
     output = card.render()
 
-    self.assertTrue('card_id' in output)
-    self.assertIsNotNone(output['card_id'])
+    self.assertTrue('cardId' in output)
+    self.assertIsNotNone(output['cardId'])
 
-  def test_rename_element(self) -> None:
+  def test_tag_override(self) -> None:
     self.maxDiff = None
     header = CardHeader(title='Princess Bride')
     section = Section()
@@ -154,11 +174,37 @@ class CardWithIdTest(unittest.TestCase):
     self.assertDictEqual(
         output,
         {
-            'card_id': 'vizzini',
+            'cardId': 'vizzini',
             'pushCard': {
                 'header': {'title': 'Princess Bride'},
                 'sections': [{
                     'widgets': [
-                        {'text_paragraph': {
+                        {'textParagraph': {
+                            'text': 'Inconceivable!'
+                        }}]}]}})
+
+  def test_tag_override_nested_card(self) -> None:
+    self.maxDiff = None
+    header = CardHeader(title='Princess Bride')
+    header = CardHeader(title='Princess Bride')
+    section = Section()
+    section.add_widget(TextParagraph(text="Inconceivable!"))
+    card_with_id = CardWithId()
+    card_with_id.card_id = 'vizzini'
+    card_with_id.header = header
+    card_with_id.add_section(section)
+
+    card = card_with_id.card()
+    card.__TAG_OVERRIDE__ = 'pushCard'
+    output = card.render()
+
+    self.assertDictEqual(
+        output,
+        {
+            'pushCard': {
+                'header': {'title': 'Princess Bride'},
+                'sections': [{
+                    'widgets': [
+                        {'textParagraph': {
                             'text': 'Inconceivable!'
                         }}]}]}})

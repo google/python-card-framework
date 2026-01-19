@@ -30,7 +30,7 @@ class ButtonTest(unittest.TestCase):
     self.assertDictEqual(
         t.to_dict(),
         {
-            'on_click': {'open_link': {'url': 'https://www.karentaylorart.com'}},
+            'onClick': {'openLink': {'url': 'https://www.karentaylorart.com'}},
             'text': 'Inconceivable!'}
     )
 
@@ -41,8 +41,8 @@ class ButtonTest(unittest.TestCase):
         i.to_dict(),
         {
             'icon': {
-                'known_icon': 'AIRPLANE'},
-            'on_click': {'open_link': 'http://www.karentaylorart.com'},
+                'knownIcon': 'AIRPLANE'},
+            'onClick': {'openLink': 'http://www.karentaylorart.com'},
         }
     )
 
@@ -55,22 +55,22 @@ class ButtonTest(unittest.TestCase):
         i.to_dict(),
         {
             'icon': {
-                'icon_url': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
+                'iconUrl': 'https://www.karentaylorart.com/wp-content/uploads/2021/01/go_small.jpg',
             },
-            'on_click': {'open_link': 'http://www.karentaylorart.com'},
+            'onClick': {'openLink': 'http://www.karentaylorart.com'},
         })
 
   def test_aligned_text_button(self) -> None:
     text = 'Inconceivable!'
-    on_click = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
-    t = Button(text=text, on_click=on_click)
+    onClick = OnClick(open_link=OpenLink(url='https://www.karentaylorart.com'))
+    t = Button(text=text, on_click=onClick)
     t.horizontal_alignment = HorizontalAlignment.CENTER
 
     self.assertDictEqual(
         t.to_dict(),
         {
-            'on_click': {
-                'open_link': {
+            'onClick': {
+                'openLink': {
                     'url': 'https://www.karentaylorart.com'}
             },
             'text': 'Inconceivable!'}

@@ -28,23 +28,23 @@ from .widget import Widget
 @dataclass
 class ValidWidget(Widget):
   """Good Widget"""
-  snake_case_property: str = standard_field()
+  camel_case_property: str = standard_field()
 
 
 class WidgetTest(unittest.TestCase):
 
   def test_valid_widget_render(self) -> None:
     widget = ValidWidget()
-    widget.snake_case_property = 'Inigo Montoya'
+    widget.camel_case_property = 'Inigo Montoya'
     self.assertDictEqual(
         widget.render(),
-        {'valid_widget': {'snake_case_property': 'Inigo Montoya'}})
+        {'validWidget': {'camelCaseProperty': 'Inigo Montoya'}})
 
   def test_aligned_widget_render(self) -> None:
     widget = ValidWidget()
-    widget.snake_case_property = 'Inigo Montoya'
+    widget.camel_case_property = 'Inigo Montoya'
     widget.horizontal_alignment = HorizontalAlignment.END
     self.assertDictEqual(
         widget.render(),
-        {'horizontal_alignment': 'END',
-         'valid_widget': {'snake_case_property': 'Inigo Montoya'}})
+        {'horizontalAlignment': 'END',
+         'validWidget': {'camelCaseProperty': 'Inigo Montoya'}})

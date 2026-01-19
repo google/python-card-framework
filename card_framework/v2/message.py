@@ -13,21 +13,22 @@
 # limitations under the License.
 from __future__ import annotations
 
-from .emoji import EmojiReactionSummary
-from .user import User
-from .space import Space
-from .card import Card, CardWithId
-from .attachment import Attachment
-from .annotation import Annotation
-from .action_response import ActionResponse
-from .widgets.button_list import ButtonList
-
 import dataclasses
 from typing import List
 
 import dataclasses_json
-from card_framework import AutoNumber, Renderable, list_field
-from card_framework import standard_field, enum_field
+
+from card_framework import (AutoNumber, Renderable, enum_field, list_field,
+                            standard_field)
+
+from .action_response import ActionResponse
+from .annotation import Annotation
+from .attachment import Attachment
+from .card import Card, CardWithId
+from .emoji import EmojiReactionSummary
+from .space import Space
+from .user import User
+from .widgets.button_list import ButtonList
 
 
 @dataclasses_json.dataclass_json
@@ -43,7 +44,7 @@ class Message(Renderable):
   text: str = standard_field()
   cards: List[Card] = list_field()
   cards_v2: List[CardWithId] = list_field(
-      letter_case=dataclasses_json.LetterCase.SNAKE)
+      letter_case=dataclasses_json.LetterCase.CAMEL)
   annotations: List[Annotation] = list_field()
   thread: Thread = standard_field()
   space: Space = standard_field()

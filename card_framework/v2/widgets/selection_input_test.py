@@ -22,7 +22,7 @@ from card_framework.v2.widgets.selection_item import SelectionItem, SelectionIte
 class SelectionInputTest(unittest.TestCase):
   def test_simple_render(self) -> None:
     self.assertDictEqual(SelectionInput(name='Inigo Montoya').render(),
-                         {'selection_input': {'name': 'Inigo Montoya'}})
+                         {'selectionInput': {'name': 'Inigo Montoya'}})
 
   def test_render_complete(self) -> None:
     self.maxDiff = None
@@ -41,7 +41,7 @@ class SelectionInputTest(unittest.TestCase):
         ActionParameter(key='Not left handed', value='right')])
 
     self.assertDictEqual(i.render(),
-                         {'selection_input': {
+                         {'selectionInput': {
                           'name': 'inigo',
                           'label': 'Inigo Montoya',
                           'type': 'DROPDOWN',
@@ -50,7 +50,7 @@ class SelectionInputTest(unittest.TestCase):
                                    'value': 'l', 'selected': True},
                                   {'text': 'right hand', 'value': 'r'}
                           ],
-                          'on_change_action': {
+                          'onChangeAction': {
                               'function': 'switch_hand',
                               'parameters': [
                                   {'key': 'Over too quick', 'value': 'left'},

@@ -41,10 +41,10 @@ class ActionResponseTest(unittest.TestCase):
 
     self.assertDictEqual(
         a.render(),
-        {'action_response': {
+        {'actionResponse': {
             'type': 'DIALOG',
             'url': 'www.karentaylorart.com',
-            'updated_widget': {
+            'updatedWidget': {
                 'widget': 'inigo',
                 'suggestions': {
                     'items': [

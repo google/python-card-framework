@@ -59,6 +59,7 @@ class Card(Renderable):
   peek_card_header: Optional[CardHeader] = standard_field()
 
   __TAG_OVERRIDE__: str = standard_field(default='card', exclude=lambda x: True)
+  # __TAG_OVERRIDE__: str = 'card'
 
   def add_section(self, section: Section) -> None:
     """Adds a section to the report.
@@ -73,7 +74,6 @@ class Card(Renderable):
 @dataclasses.dataclass
 class CardWithId(Card):
   __card_id: str = standard_field(default=None, exclude=lambda x: True)
-  __TAG_OVERRIDE__: str = standard_field(default='card', exclude=lambda x: True)
 
   @property
   def card_id(self) -> str:
